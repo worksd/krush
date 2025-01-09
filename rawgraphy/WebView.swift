@@ -22,9 +22,10 @@ struct WebView: UIViewRepresentable {
     var push: (String) -> Void
     var replace: (String) -> Void
     var back: () -> Void
+    var sendAppleLogin: () -> Void
     
 
-    private let baseURL = "http://192.168.45.45:3000"
+    private let baseURL = "http://192.168.45.62:3000"
 
     init(
         route: String,
@@ -33,7 +34,8 @@ struct WebView: UIViewRepresentable {
         push: @escaping (String) -> Void = { _ in },
         replace: @escaping (String) -> Void = { _ in },
         back: @escaping () -> Void = {},
-        navigateMain: @escaping (BootInfo) -> Void = { _ in }
+        navigateMain: @escaping (BootInfo) -> Void = { _ in },
+        sendAppleLogin: @escaping () -> Void = {}
     ) {
         self.route = route
         self.sendBootInfo = sendBootInfo
@@ -42,6 +44,7 @@ struct WebView: UIViewRepresentable {
         self.replace = replace
         self.back = back
         self.navigateMain = navigateMain
+        self.sendAppleLogin = sendAppleLogin
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -72,14 +75,15 @@ struct WebView: UIViewRepresentable {
             meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
             document.getElementsByTagName('head')[0].appendChild(meta);
             window.KloudEvent = {
-                sendBootInfo: function(data) { sendMessage('sendBootInfo', data); },
                 clearAndPush: function(data) { sendMessage('clearAndPush', data); },
                 push: function(data) { sendMessage('push', data); },
                 replace: function(data) { sendMessage('replace', data); },
                 back: function() { sendMessage('back'); },
                 clearToken: function() { sendMessage('clearToken'); },
                 navigateMain: function(data) { sendMessage('navigateMain', data); },
-                showToast: function(data) { sendMessage('showToast', data); }
+                showToast: function(data) { sendMessage('showToast', data); },
+                sendHapticFeedback: function() { sendMessage('sendHapticFeedback'); },
+                sendAppleLogin: function() { sendMessage('sendAppleLogin'); }
             };
 
             function sendMessage(type, data = null) {
@@ -110,7 +114,7 @@ struct WebView: UIViewRepresentable {
 extension WebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case sendBootInfo, clearAndPush, push, replace, back, navigateMain, showToast
+            case clearAndPush, push, replace, back, navigateMain, showToast, sendAppleLogin
         }
 
         var parent: WebView
@@ -134,8 +138,6 @@ extension WebView {
 
         private func handleEvent(type: KloudEventType, data: Any?) {
             switch type {
-            case .sendBootInfo:
-                handleSendBootInfo(data: data)
             case .clearAndPush:
                 guard let dataString = data as? String else {
                     print("❌ Invalid data for string event")
@@ -157,6 +159,7 @@ extension WebView {
                     print("❌ Invalid data for string event")
                     return
                 }
+                    print(dataString)
                 ToastManager.shared.showToast(message: dataString)
             case .navigateMain:
                 guard let dataString = data as? String,
@@ -170,7 +173,10 @@ extension WebView {
                 } catch {
                     print("❌ Parsing error:", error)
                 }
+            case .sendAppleLogin:
+                self.parent.sendAppleLogin()
             }
+            
         }
 
         private func handleSendBootInfo(data: Any?) {

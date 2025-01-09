@@ -35,6 +35,7 @@ struct AppMain: App {
                     }
                 },
                 navigateMain: { bootInfo in
+                    print("navigateMain")
                     if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                        let window = windowScene.windows.first,
                        let rootViewController = window.rootViewController {
@@ -48,10 +49,10 @@ struct AppMain: App {
                     }
                 }
             )
-            ZStack {
-                Color.black
-                Image("Logo")
-            }
+//            ZStack {
+//                Color.black
+//                Image("Logo")
+//            }
         }
     }
   }

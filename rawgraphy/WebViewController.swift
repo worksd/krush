@@ -1,6 +1,7 @@
 import SwiftUI
 import WebKit
 import Toast
+import AuthenticationServices
 
 class WebViewController: UIViewController {
     private var route: String
@@ -23,6 +24,20 @@ class WebViewController: UIViewController {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func showAppleLogin() {
+
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+    }
+    
+    func appleLogin(authCode: String) {
+        print(authCode)
+        
     }
     
     override func loadView() {
@@ -71,6 +86,8 @@ class WebViewController: UIViewController {
                        window.rootViewController = navigationController
                    })
                }
+            },sendAppleLogin: {
+                self.showAppleLogin()
             }
         )
         
@@ -102,5 +119,33 @@ class WebViewController: UIViewController {
 extension WebViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+extension WebViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+
+            if let authorizationCode = appleIDCredential.authorizationCode,
+               let identityToken = appleIDCredential.identityToken,
+               let authCode = String(data: authorizationCode, encoding: .utf8),
+               let tokenString = String(data: identityToken, encoding: .utf8) {
+                self.appleLogin(authCode: authCode)
+                }
+
+        case let passwordCredential as ASPasswordCredential:
+                // Sign in using an existing iCloud Keychain credential.
+                let username = passwordCredential.user
+                let password = passwordCredential.password
+        default:
+            break
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+        print("login error")
     }
 }
