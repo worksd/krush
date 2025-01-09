@@ -6,8 +6,6 @@
 //
 import SwiftUI
 import WebKit
-import Toast
-
 
 struct WebView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
@@ -23,7 +21,6 @@ struct WebView: UIViewRepresentable {
     var replace: (String) -> Void
     var back: () -> Void
     var sendAppleLogin: () -> Void
-    
 
     private let baseURL = "http://192.168.45.62:3000"
 
@@ -114,7 +111,7 @@ struct WebView: UIViewRepresentable {
 extension WebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast, sendAppleLogin
+            case clearAndPush, push, replace, back, navigateMain, showToast, sendAppleLogin, sendHapticFeedback
         }
 
         var parent: WebView
@@ -159,8 +156,8 @@ extension WebView {
                     print("❌ Invalid data for string event")
                     return
                 }
-                    print(dataString)
-                ToastManager.shared.showToast(message: dataString)
+                // TODO : 토스트 보여주기
+                
             case .navigateMain:
                 guard let dataString = data as? String,
                       let jsonData = dataString.data(using: .utf8) else {
@@ -173,9 +170,12 @@ extension WebView {
                 } catch {
                     print("❌ Parsing error:", error)
                 }
-            case .sendAppleLogin:
-                self.parent.sendAppleLogin()
+                case .sendAppleLogin:
+                    self.parent.sendAppleLogin()
+                case .sendHapticFeedback:
+                    HapticManager().createImpact()
             }
+
             
         }
 
@@ -202,6 +202,28 @@ extension WebView {
             DispatchQueue.main.async { action?(dataString) }
         }
         
+    }
+}
 
+class HapticManager {
+    static let shared = HapticManager()
+    
+    private var generator: UIImpactFeedbackGenerator?
+    
+    init() {
+        setupGenerator()
+    }
+    
+    func setupGenerator() {
+        generator = UIImpactFeedbackGenerator()
+        generator?.prepare()
+    }
+    
+    func createImpact(style: UIImpactFeedbackGenerator.FeedbackStyle = .heavy) {
+        generator?.impactOccurred()
+    }
+    
+    func release() {
+        generator = nil
     }
 }

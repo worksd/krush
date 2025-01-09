@@ -10,6 +10,8 @@ import SwiftUI
 @main
 struct AppMain: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor.white
         
@@ -49,10 +51,10 @@ struct AppMain: App {
                     }
                 }
             )
-//            ZStack {
-//                Color.black
-//                Image("Logo")
-//            }
+            ZStack {
+                Color.black
+                Image("Logo")
+            }
         }
     }
   }
