@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import KakaoSDKAuth
+import KakaoSDKCommon
 
 @main
 struct AppMain: App {
@@ -14,6 +16,7 @@ struct AppMain: App {
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.white
+        KakaoSDK.initSDK(appKey: "198ee4b72a3466ab10d4b1ff27bbc695")
         
     }
 
@@ -56,6 +59,10 @@ struct AppMain: App {
                 Image("Logo")
             }
         }
-    }
+    }.onOpenURL(perform: { url in
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            AuthController.handleOpenUrl(url: url)
+        }
+    })
   }
 }

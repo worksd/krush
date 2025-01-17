@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseCore
 import UserNotifications
 import FirebaseMessaging
+import iamport_ios
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -35,6 +36,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         return true
     }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+          Iamport.shared.receivedURL(url)
+          return true
+      }
+    
+    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

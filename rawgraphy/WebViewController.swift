@@ -2,6 +2,7 @@ import SwiftUI
 import WebKit
 import Toast
 import AuthenticationServices
+import iamport_ios
 
 class WebViewController: UIViewController {
     private var route: String
@@ -35,9 +36,8 @@ class WebViewController: UIViewController {
         controller.performRequests()
     }
     
-    func appleLogin(authCode: String) {
-        print(authCode)
-        
+    func onAppleLoginSuccess(identityToken: String) {
+        WebViewContainer.shared.sendWebEvent(functionName: "onAppleLoginSuccess", data: ["code": identityToken])
     }
     
     override func loadView() {
@@ -86,7 +86,8 @@ class WebViewController: UIViewController {
                        window.rootViewController = navigationController
                    })
                }
-            },sendAppleLogin: {
+            },
+            sendAppleLogin: {
                 self.showAppleLogin()
             }
         )
@@ -132,8 +133,8 @@ extension WebViewController: ASAuthorizationControllerDelegate {
                let identityToken = appleIDCredential.identityToken,
                let authCode = String(data: authorizationCode, encoding: .utf8),
                let tokenString = String(data: identityToken, encoding: .utf8) {
-                self.appleLogin(authCode: authCode)
-                }
+                self.onAppleLoginSuccess(identityToken: tokenString)
+            }
 
         case let passwordCredential as ASPasswordCredential:
                 // Sign in using an existing iCloud Keychain credential.

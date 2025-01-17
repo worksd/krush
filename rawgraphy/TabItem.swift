@@ -16,7 +16,6 @@ struct BootInfo: Codable {
 struct BottomMenuItem: Codable {
     let label: String
     let labelSize: Int
-    let labelColor: String
     let iconUrl: String
     let iconSize: Int
     let page: Page

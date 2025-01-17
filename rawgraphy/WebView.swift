@@ -22,7 +22,7 @@ struct WebView: UIViewRepresentable {
     var back: () -> Void
     var sendAppleLogin: () -> Void
 
-    private let baseURL = "http://192.168.45.62:3000"
+    private let baseURL = "http://192.168.0.18:3000"
 
     init(
         route: String,
@@ -58,6 +58,8 @@ struct WebView: UIViewRepresentable {
         webView.scrollView.backgroundColor = .white
         configureWebView(webView)
         loadURL(in: webView)
+        
+        WebViewContainer.shared.webView = webView
         return webView
     }
 
@@ -225,5 +227,34 @@ class HapticManager {
     
     func release() {
         generator = nil
+    }
+}
+
+
+class WebViewContainer {
+    static let shared = WebViewContainer()
+    var webView: WKWebView?
+    
+    private init() {}
+    
+    func sendWebEvent(functionName: String, data: [String: Any]) {
+        print("sendWebEvent \(functionName), \(data)")
+        guard let webView = self.webView else { return }
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                DispatchQueue.main.async {
+                    let script = "javascript:\(functionName)(\(jsonString));"
+                    webView.evaluateJavaScript(script) { (result, error) in
+                        if let error = error {
+                            print("에러: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("에러: \(error.localizedDescription)")
+        }
     }
 }

@@ -33,6 +33,10 @@
 		3B1B579D2D300FD2007B1ECE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B579C2D300FD2007B1ECE /* FirebaseStorage */; };
 		3B1B579F2D300FD3007B1ECE /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B579E2D300FD3007B1ECE /* FirebaseStorageCombine-Community */; };
 		3B1B57A12D300FD3007B1ECE /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57A02D300FD3007B1ECE /* FirebaseVertexAI */; };
+		3B3BDCB82D38BDCE00B0F233 /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCB72D38BDCE00B0F233 /* iamport-ios */; };
+		3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3BDCB92D3A322600B0F233 /* Dialog.swift */; };
+		3B3BDCBD2D3A4BB300B0F233 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */; };
+		3B3BDCBF2D3A4BC000B0F233 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBE2D3A4BC000B0F233 /* KakaoSDKCommon */; };
 		3B97169F2D1BABCF0024C34A /* rawgraphyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */; };
 		3B9716A32D1BABD10024C34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9716A22D1BABD10024C34A /* Assets.xcassets */; };
 		3B9716A72D1BABD10024C34A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9716A62D1BABD10024C34A /* Preview Assets.xcassets */; };
@@ -69,6 +73,7 @@
 /* Begin PBXFileReference section */
 		3B1B576D2D300E9B007B1ECE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B1B57702D300FA7007B1ECE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3B3BDCB92D3A322600B0F233 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B97169B2D1BABCF0024C34A /* rawgraphy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rawgraphy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rawgraphyApp.swift; sourceTree = "<group>"; };
 		3B9716A22D1BABD10024C34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -102,6 +107,7 @@
 				3B1B57792D300FD2007B1ECE /* FirebaseAppCheck in Frameworks */,
 				3B1B57912D300FD2007B1ECE /* FirebaseInAppMessaging-Beta in Frameworks */,
 				3B1B57972D300FD2007B1ECE /* FirebaseMLModelDownloader in Frameworks */,
+				3B3BDCBF2D3A4BC000B0F233 /* KakaoSDKCommon in Frameworks */,
 				3B1B57772D300FD2007B1ECE /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				3B1B57952D300FD2007B1ECE /* FirebaseMessaging in Frameworks */,
 				3B1B579F2D300FD3007B1ECE /* FirebaseStorageCombine-Community in Frameworks */,
@@ -109,7 +115,9 @@
 				3B1B57A12D300FD3007B1ECE /* FirebaseVertexAI in Frameworks */,
 				3B1B579D2D300FD2007B1ECE /* FirebaseStorage in Frameworks */,
 				3B1B579B2D300FD2007B1ECE /* FirebaseRemoteConfig in Frameworks */,
+				3B3BDCB82D38BDCE00B0F233 /* iamport-ios in Frameworks */,
 				3B1B578F2D300FD2007B1ECE /* FirebaseFunctionsCombine-Community in Frameworks */,
+				3B3BDCBD2D3A4BB300B0F233 /* KakaoSDKAuth in Frameworks */,
 				3B1B577B2D300FD2007B1ECE /* FirebaseAppDistribution-Beta in Frameworks */,
 				3B1B57832D300FD2007B1ECE /* FirebaseCrashlytics in Frameworks */,
 				3B1B57992D300FD2007B1ECE /* FirebasePerformance in Frameworks */,
@@ -163,6 +171,7 @@
 		3B97169D2D1BABCF0024C34A /* rawgraphy */ = {
 			isa = PBXGroup;
 			children = (
+				3B3BDCB92D3A322600B0F233 /* Dialog.swift */,
 				3B1B57702D300FA7007B1ECE /* AppDelegate.swift */,
 				3B1B576D2D300E9B007B1ECE /* GoogleService-Info.plist */,
 				3BFF9D252D2A4B5D00D12386 /* ToastManager.swift */,
@@ -255,6 +264,9 @@
 				3B1B579C2D300FD2007B1ECE /* FirebaseStorage */,
 				3B1B579E2D300FD3007B1ECE /* FirebaseStorageCombine-Community */,
 				3B1B57A02D300FD3007B1ECE /* FirebaseVertexAI */,
+				3B3BDCB72D38BDCE00B0F233 /* iamport-ios */,
+				3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */,
+				3B3BDCBE2D3A4BC000B0F233 /* KakaoSDKCommon */,
 			);
 			productName = rawgraphy;
 			productReference = 3B97169B2D1BABCF0024C34A /* rawgraphy.app */;
@@ -331,6 +343,8 @@
 			packageReferences = (
 				3BFF9D222D2A491D00D12386 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				3B1B576F2D300F07007B1ECE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3B3BDCB62D38BD2500B0F233 /* XCRemoteSwiftPackageReference "iamport-ios" */,
+				3B3BDCBB2D3A4B6F00B0F233 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = 3B97169C2D1BABCF0024C34A /* Products */;
 			projectDirPath = "";
@@ -376,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B9716EA2D2526B90024C34A /* MainView.swift in Sources */,
+				3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */,
 				3BBBF9852D2534E300AD8AD1 /* WebViewController.swift in Sources */,
 				3BBBF9872D253AB700AD8AD1 /* TabItem.swift in Sources */,
 				3B1B57712D300FAA007B1ECE /* AppDelegate.swift in Sources */,
@@ -755,6 +770,22 @@
 				minimumVersion = 11.6.0;
 			};
 		};
+		3B3BDCB62D38BD2500B0F233 /* XCRemoteSwiftPackageReference "iamport-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iamport/iamport-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.7;
+			};
+		};
+		3B3BDCBB2D3A4B6F00B0F233 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.23.0;
+			};
+		};
 		3BFF9D222D2A491D00D12386 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift";
@@ -885,6 +916,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B1B576F2D300F07007B1ECE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseVertexAI;
+		};
+		3B3BDCB72D38BDCE00B0F233 /* iamport-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B3BDCB62D38BD2500B0F233 /* XCRemoteSwiftPackageReference "iamport-ios" */;
+			productName = "iamport-ios";
+		};
+		3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B3BDCBB2D3A4B6F00B0F233 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		3B3BDCBE2D3A4BC000B0F233 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B3BDCBB2D3A4B6F00B0F233 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
 		};
 		3BFF9D232D2A493000D12386 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
