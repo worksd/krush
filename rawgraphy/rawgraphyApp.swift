@@ -8,61 +8,38 @@
 import SwiftUI
 import KakaoSDKAuth
 import KakaoSDKCommon
+import SDWebImageSVGCoder
+import LinkNavigator
 
 @main
 struct AppMain: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    var navigator: LinkNavigator {
+      delegate.navigator
+    }
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor.white
         KakaoSDK.initSDK(appKey: "198ee4b72a3466ab10d4b1ff27bbc695")
-        
+        setUpDependencies()
     }
 
   var body: some Scene {
     WindowGroup {
         ZStack {
-            WebView(
-                route: "/splash",
-                clearAndPush: { route in
-                    print(route)
-                    
-                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                       let window = windowScene.windows.first,
-                       let rootViewController = window.rootViewController {
-                        
-                        let webViewController = WebViewController(route: route)
-                        let navigationController = UINavigationController(rootViewController: webViewController)
-                        navigationController.modalPresentationStyle = .fullScreen
-                        rootViewController.view.backgroundColor = .white
-                        rootViewController.present(navigationController, animated: true)
-                    }
-                },
-                navigateMain: { bootInfo in
-                    print("navigateMain")
-                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                       let window = windowScene.windows.first,
-                       let rootViewController = window.rootViewController {
-                        
-                        let webViewController = MainViewController(bootInfo: bootInfo)
-                        let navigationController = UINavigationController(rootViewController: webViewController)
-                        navigationController.modalPresentationStyle = .fullScreen
-                        rootViewController.view.backgroundColor = .white
-                        rootViewController.present(navigationController, animated: true)
-                        
-                    }
-                }
-            )
-            ZStack {
-                Color.black
-                Image("Logo")
+            navigator.launch(paths: ["web"], items: ["route": "/splash"]).edgesIgnoringSafeArea(.all)
+        }.onOpenURL { url in
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
             }
+            print("success!" + url.absoluteString)
         }
-    }.onOpenURL(perform: { url in
-        if (AuthApi.isKakaoTalkLoginUrl(url)) {
-            AuthController.handleOpenUrl(url: url)
-        }
-    })
+    }
   }
+    
+    func setUpDependencies() {
+        SDImageCodersManager.shared.addCoder(SDImageSVGCoder.shared)
+    }
 }

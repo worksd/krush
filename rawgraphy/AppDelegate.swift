@@ -10,9 +10,16 @@ import FirebaseCore
 import UserNotifications
 import FirebaseMessaging
 import iamport_ios
+import KakaoSDKCommon
+import KakaoSDKAuth
+import LinkNavigator
 
+// MARK: - AppDelegate
+final class AppDelegate: UIResponder {
+  let navigator = LinkNavigator(dependency: AppDependency(), builders: AppRouterGroup().routers)
+}
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
@@ -38,8 +45,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-          Iamport.shared.receivedURL(url)
-          return true
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.handleOpenUrl(url: url)
+        }
+        Iamport.shared.receivedURL(url)
+        return false
       }
     
     

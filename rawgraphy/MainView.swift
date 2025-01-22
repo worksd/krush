@@ -5,69 +5,52 @@
 //  Created by 이동호 on 2025/01/01.
 //
 
-import Foundation
 import SwiftUI
+import SDWebImageSwiftUI
+import LinkNavigator
 
 public struct MainView {
     @State private var selectedTab = 0
     @State private var menuItems: [BottomMenuItem] = []
-    private var push: (String) -> Void
-    private var clearAndPush : (String) -> Void
-    
-    init(
-        bootInfo: BootInfo,
-        push: @escaping (String) -> Void = { _ in },
-        clearAndPush: @escaping (String) -> Void = { _ in }
-    ) {
-        _menuItems = State(initialValue: bootInfo.bottomMenuList) // @State 변수 초기화 수정
-       print("MainView init with menuItems count: \(bootInfo.bottomMenuList.count)")
-       bootInfo.bottomMenuList.forEach { item in
-           print("Menu item: \(item.label), route: \(item.page.route)")
-       }
-        self.push = push
-        self.clearAndPush = clearAndPush
+    let navigator: LinkNavigatorType
+
+    init(navigator: LinkNavigatorType, bootInfoCommand: String) {
+        self.navigator = navigator
+        let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: bootInfoCommand)) ?? BootInfo(bottomMenuList: [], route: "")
+        self._menuItems = State(initialValue: bootInfo.bottomMenuList)
     }
 }
 
 extension MainView: View {
     public var body: some View {
         NavigationView {
-            ZStack {
-                Color.white.ignoresSafeArea()  // SafeArea까지 흰색으로 채움
-                
-                TabView {
-                    ForEach(self.menuItems.indices, id: \.self) { index in
-                        WebView(
-                            route: self.menuItems[index].page.route,
-                            sendBootInfo: { bootInfo in
-                                
-                            },
-                            clearAndPush: { route in
-                                clearAndPush(route)
-                            },
-                            push: { route in
-                                push(route)
-                            },
-                            back: {
-                                
-                            }
-                        )
-                        .tabItem {
-                            Image(systemName: "photo")
-                                .frame(width: CGFloat(menuItems[index].iconSize),
-                                     height: CGFloat(menuItems[index].iconSize))
-                            
-                            Text(menuItems[index].label)
-                                .font(.system(size: CGFloat(menuItems[index].labelSize)))
+            TabView(selection: $selectedTab) {
+                ForEach(self.menuItems.indices, id: \.self) { index in
+                    RawgraphyWebView(
+                        navigator: navigator,
+                        route: self.menuItems[index].page.route
+                    )
+                    .tabItem {
+                        let menuItem = menuItems[index]
+                        Label {
+                            Text(menuItem.label)
+                                .font(.system(size: CGFloat(menuItem.labelSize)))
+                        } icon: {
+//                                WebImage(url: URL(string: menuItem.iconUrl))
+//                                    .resizable()
+//                                    .renderingMode(.template)
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: CGFloat(menuItem.iconSize),
+//                                           height: CGFloat(menuItem.iconSize))
+                            Image("photo")
                         }
-                        .tag(index)
                     }
+                    .tag(index)
                 }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .tint(.black)
-        .preferredColorScheme(.light)  // 항상 라이트 모드 강제
-        .background(Color.white.ignoresSafeArea())  // 전체 배경 흰색으로
+        .preferredColorScheme(.light)
     }
 }
