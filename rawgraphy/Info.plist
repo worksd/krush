@@ -8,7 +8,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.worksd.krush</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>rawgraphy</string>
@@ -18,7 +18,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.worksd.krush</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakao198ee4b72a3466ab10d4b1ff27bbc695</string>
@@ -28,7 +28,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.worksd.krush</string>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>iamport</string>
@@ -37,7 +37,7 @@
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakaocompassauth</string>
+		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 		<string>kftc-bankpay</string>
 		<string>ispmobile</string>

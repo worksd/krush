@@ -40,6 +40,12 @@
 		3B2B39382D40BE6F005FAFBE /* AppRouterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39372D40BE6B005FAFBE /* AppRouterGroup.swift */; };
 		3B2B393A2D40BF67005FAFBE /* RouteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39392D40BF65005FAFBE /* RouteBuilder.swift */; };
 		3B2B393F2D40C5E4005FAFBE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B393E2D40C5E2005FAFBE /* WebView.swift */; };
+		3B2B39412D43DF47005FAFBE /* WebViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39402D43DF42005FAFBE /* WebViewConfigurator.swift */; };
+		3B2B39432D43DF60005FAFBE /* KloudEventScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39422D43DF5B005FAFBE /* KloudEventScript.swift */; };
+		3B2B39452D43DF75005FAFBE /* WebViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39442D43DF6F005FAFBE /* WebViewCoordinator.swift */; };
+		3B2B39472D43DF86005FAFBE /* WebEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */; };
+		3B2B39492D43DF92005FAFBE /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39482D43DF90005FAFBE /* HapticManager.swift */; };
+		3B2B394B2D43DFA3005FAFBE /* AppleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */; };
 		3B3BDCB82D38BDCE00B0F233 /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCB72D38BDCE00B0F233 /* iamport-ios */; };
 		3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3BDCB92D3A322600B0F233 /* Dialog.swift */; };
 		3B3BDCBD2D3A4BB300B0F233 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */; };
@@ -86,6 +92,12 @@
 		3B2B39372D40BE6B005FAFBE /* AppRouterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouterGroup.swift; sourceTree = "<group>"; };
 		3B2B39392D40BF65005FAFBE /* RouteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuilder.swift; sourceTree = "<group>"; };
 		3B2B393E2D40C5E2005FAFBE /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		3B2B39402D43DF42005FAFBE /* WebViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewConfigurator.swift; sourceTree = "<group>"; };
+		3B2B39422D43DF5B005FAFBE /* KloudEventScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KloudEventScript.swift; sourceTree = "<group>"; };
+		3B2B39442D43DF6F005FAFBE /* WebViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCoordinator.swift; sourceTree = "<group>"; };
+		3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebEventHandler.swift; sourceTree = "<group>"; };
+		3B2B39482D43DF90005FAFBE /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginController.swift; sourceTree = "<group>"; };
 		3B3BDCB92D3A322600B0F233 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B97169B2D1BABCF0024C34A /* rawgraphy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rawgraphy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rawgraphyApp.swift; sourceTree = "<group>"; };
@@ -187,6 +199,12 @@
 		3B97169D2D1BABCF0024C34A /* rawgraphy */ = {
 			isa = PBXGroup;
 			children = (
+				3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */,
+				3B2B39482D43DF90005FAFBE /* HapticManager.swift */,
+				3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */,
+				3B2B39442D43DF6F005FAFBE /* WebViewCoordinator.swift */,
+				3B2B39422D43DF5B005FAFBE /* KloudEventScript.swift */,
+				3B2B39402D43DF42005FAFBE /* WebViewConfigurator.swift */,
 				3B2B39392D40BF65005FAFBE /* RouteBuilder.swift */,
 				3B2B39372D40BE6B005FAFBE /* AppRouterGroup.swift */,
 				3B2B39332D40BD9B005FAFBE /* AppDependency.swift */,
@@ -421,10 +439,16 @@
 			files = (
 				3B2B39382D40BE6F005FAFBE /* AppRouterGroup.swift in Sources */,
 				3B9716EA2D2526B90024C34A /* MainView.swift in Sources */,
+				3B2B39492D43DF92005FAFBE /* HapticManager.swift in Sources */,
+				3B2B39472D43DF86005FAFBE /* WebEventHandler.swift in Sources */,
 				3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */,
 				3BBBF9872D253AB700AD8AD1 /* WebResponse.swift in Sources */,
+				3B2B39412D43DF47005FAFBE /* WebViewConfigurator.swift in Sources */,
+				3B2B39432D43DF60005FAFBE /* KloudEventScript.swift in Sources */,
 				3B1B57712D300FAA007B1ECE /* AppDelegate.swift in Sources */,
 				3B2B393A2D40BF67005FAFBE /* RouteBuilder.swift in Sources */,
+				3B2B39452D43DF75005FAFBE /* WebViewCoordinator.swift in Sources */,
+				3B2B394B2D43DFA3005FAFBE /* AppleLoginController.swift in Sources */,
 				3B2B39342D40BD9F005FAFBE /* AppDependency.swift in Sources */,
 				3B9716E12D2525420024C34A /* RawgraphyWebView.swift in Sources */,
 				3B97169F2D1BABCF0024C34A /* rawgraphyApp.swift in Sources */,
@@ -584,7 +608,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -627,7 +651,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;

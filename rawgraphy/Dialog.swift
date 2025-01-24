@@ -6,7 +6,7 @@ enum KloudDialogType: String {
 }
 
 struct KloudDialogInfo: Codable {
-    let id: Int
+    let id: String
     let type: String
     let route: String?
     let hideForeverMessage: String?
@@ -20,7 +20,7 @@ struct KloudDialogInfo: Codable {
 struct KloudDialog: View {
     let dialogInfo: KloudDialogInfo
     let onClick: (KloudDialogInfo) -> Void
-    let onClickHideDialog: (Int, Bool) -> Void
+    let onClickHideDialog: (String, Bool) -> Void
     let onDismiss: () -> Void
     
     @State private var isHideForeverClicked = false
@@ -51,14 +51,14 @@ struct KloudDialog: View {
 }
 
 struct ImageDialogScreen: View {
-    let id: Int
+    let id: String
     let hideForeverMessage: String?
     let imageUrl: String
     let imageRatio: Float
     let ctaButtonText: String?
     let onDismiss: () -> Void
-    let onClick: (Int?) -> Void
-    let onClickHideDialog: (Int, Bool) -> Void
+    let onClick: (String) -> Void
+    let onClickHideDialog: (String, Bool) -> Void
     
     var body: some View {
         VStack {
@@ -118,9 +118,9 @@ struct ImageDialogScreen: View {
 }
 
 struct HideForeverRow: View {
-    let id: Int
+    let id: String
     let message: String
-    let onClickHideDialog: (Int, Bool) -> Void
+    let onClickHideDialog: (String, Bool) -> Void
     
     @State private var isHideForeverClicked = false
     
@@ -142,7 +142,7 @@ struct HideForeverRow: View {
 }
 
 struct SimpleDialogScreen: View {
-    let id: Int
+    let id: String
     let title: String
     let message: String?
     let onDismiss: () -> Void

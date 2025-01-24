@@ -102,24 +102,24 @@ struct DialogOverlay: View {
                 KloudDialog(
                     dialogInfo: info,
                     onClick: { info in
-                        WebViewContainer.shared.sendWebEvent(functionName: "onDialogConfirm", data: [
-                            "id": info.id,
-                            "type": info.type,
-                            "route": info.route,
-                            "hideForeverMessage": info.hideForeverMessage,
-                            "imageUrl": info.imageUrl,
-                            "imageRatio": info.imageRatio,
-                            "title": info.title,
-                            "message": info.message,
-                            "ctaButtonText": info.ctaButtonText
-                        ])
+//                        WebViewContainer.shared.sendWebEvent(functionName: "onDialogConfirm", data: [
+//                            "id": info.id,
+//                            "type": info.type,
+//                            "route": info.route,
+//                            "hideForeverMessage": info.hideForeverMessage,
+//                            "imageUrl": info.imageUrl,
+//                            "imageRatio": info.imageRatio,
+//                            "title": info.title,
+//                            "message": info.message,
+//                            "ctaButtonText": info.ctaButtonText
+//                        ])
                         onDismiss()
                     },
                     onClickHideDialog: { id, isHidden in
-                        WebViewContainer.shared.sendWebEvent(functionName: "onHideDialogConfirm", data: [
-                            "id": id,
-                            "clicked": isHidden
-                        ])
+//                        WebViewContainer.shared.sendWebEvent(functionName: "onHideDialogConfirm", data: [
+//                            "id": id,
+//                            "clicked": isHidden
+//                        ])
                     },
                     onDismiss: onDismiss
                 )
