@@ -8,18 +8,23 @@ import SwiftUI
 import WebKit
 import KakaoSDKUser
 import LinkNavigator
+import AuthenticationServices
+import iamport_ios
 
 struct RawgraphyWebView: UIViewRepresentable {
     
     let navigator: LinkNavigatorType
+    let appleController = MyAppleLoginController()
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
     let route: String
+    let showDialog: (KloudDialogInfo) -> Void
 
-    private let baseURL = "http://192.168.0.3:3000"
+    private let baseURL = "https://kloud-alpha.vercel.app"
+//    private let baseURL = "http://192.168.45.138:3000"
 
 
     func makeUIView(context: Context) -> WKWebView {
@@ -42,7 +47,7 @@ struct RawgraphyWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        loadURL(in: uiView)
+       
     }
 
     private func addKloudEventScript(to configuration: WKWebViewConfiguration) {
@@ -61,7 +66,9 @@ struct RawgraphyWebView: UIViewRepresentable {
                 showToast: function(data) { sendMessage('showToast', data); },
                 sendHapticFeedback: function() { sendMessage('sendHapticFeedback'); },
                 sendAppleLogin: function() { sendMessage('sendAppleLogin'); },
-                sendKakaoLogin: function() { sendMessage('sendKakaoLogin'); }
+                sendKakaoLogin: function() { sendMessage('sendKakaoLogin'); },
+                showDialog: function(data) { sendMessage('showDialog', data); },
+                requestPayment: function(data) { sendMessage('requestPayment', data); }
             };
 
             function sendMessage(type, data = null) {
@@ -92,7 +99,7 @@ struct RawgraphyWebView: UIViewRepresentable {
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast, sendAppleLogin, sendHapticFeedback, sendKakaoLogin
+            case clearAndPush, push, replace, back, navigateMain, showToast, sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, requestPayment
         }
 
         var parent: RawgraphyWebView
@@ -117,7 +124,7 @@ extension RawgraphyWebView {
                         print("❌ Invalid data for string event")
                         return
                     }
-                    self.parent.navigator.fullSheet(paths: ["web"], items: ["route": route], isAnimated: true, prefersLargeTitles: false)
+                    self.parent.navigator.replace(paths: ["web"], items: ["route": route], isAnimated: true)
                 case .push:
                     guard let route = data as? String else {
                         print("❌ Invalid data for string event")
@@ -139,8 +146,6 @@ extension RawgraphyWebView {
                         print("❌ Invalid data for string event")
                         return
                     }
-                    // TODO : 토스트 보여주기
-                    
                 case .navigateMain:
                     guard let dataString = data as? String,
                           let jsonData = dataString.data(using: .utf8) else {
@@ -151,11 +156,71 @@ extension RawgraphyWebView {
                 
                 case .sendAppleLogin:
                     print("sendAppleLogin")
-//                    self.parent.sendAppleLogin()
+                    self.parent.appleController.showAppleLogin(onSuccessAppleLogin: { code in
+                        WebViewContainer.shared.sendWebEvent(functionName: "onAppleLoginSuccess", data: ["code": code])
+                    })
                 case .sendHapticFeedback:
                     HapticManager().createImpact()
                 case .sendKakaoLogin:
                     kakaoLogin()
+                case .showDialog:
+                    guard let dataString = data as? String else {
+                        print("❌ Invalid data type for DialogInfo")
+                        return
+                    }
+
+                    print("rawString = \(dataString)")
+
+                    do {
+                        let dialogInfo = try JSONDecoder().decode(KloudDialogInfo.self, from: dataString.data(using: .utf8) ?? Data())
+                        DispatchQueue.main.async {
+                            print("dialogInfo = \(dialogInfo)")
+                            self.parent.showDialog(dialogInfo)
+                        }
+                    } catch {
+                        print("❌ Dialog parsing error:", error)
+                    }
+                case .requestPayment:
+                    guard let dataString = data as? String else {
+                        print("❌ Invalid data type for DialogInfo")
+                        return
+                    }
+                    
+                    do {
+                        print(dataString)
+                        print(PG.tosspayments.makePgRawName())
+                        print(PG.nice.makePgRawName())
+                        let paymentInfo = try JSONDecoder().decode(PaymentInfo.self, from: dataString.data(using: .utf8) ?? Data())
+                        let payment = IamportPayment(
+                            pg: paymentInfo.pg,
+                            merchant_uid: paymentInfo.paymentId,
+                            amount: paymentInfo.amount).then {
+                                $0.pay_method = paymentInfo.method
+                                $0.name = paymentInfo.orderName
+                                $0.buyer_name = paymentInfo.userId
+                                $0.app_scheme = paymentInfo.scheme
+                            }
+
+                        // I'mport SDK 에 결제 요청
+                        // case1 : UINavigationController 사용
+                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                               let window = windowScene.windows.first,
+                               let rootViewController = window.rootViewController {
+                                
+                                Iamport.shared.payment(viewController: rootViewController,
+                                                     userCode: paymentInfo.userCode,
+                                                     payment: payment) { [weak self] response in
+                                    // 결제 완료 후 웹뷰에 결과 전달
+                                    WebViewContainer.shared.sendWebEvent(functionName: "onPaymentSuccess", data: [
+                                        "paymentId": response?.merchant_uid,
+                                        "transactionId": response?.imp_uid
+                                    ])
+                                }
+                            }
+                    } catch {
+                        print("❌ Dialog parsing error:", error)
+                    }
+
             }
         }
 
@@ -262,5 +327,65 @@ class WebViewContainer {
         } catch {
             print("에러: \(error.localizedDescription)")
         }
+    }
+}
+
+class MyAppleLoginController: UIViewController {
+    
+    var onSuccessAppleLogin: (String) -> Void = {_ in }
+
+    func showAppleLogin(onSuccessAppleLogin: @escaping (String) -> Void) {
+        self.onSuccessAppleLogin = onSuccessAppleLogin
+    
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+    }
+}
+
+extension MyAppleLoginController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+
+            // Create an account in your system.
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName?.description
+            let email = appleIDCredential.email
+            let state = appleIDCredential.state
+
+            if let authorizationCode = appleIDCredential.authorizationCode,
+               let identityToken = appleIDCredential.identityToken,
+               let authString = String(data: authorizationCode, encoding: .utf8),
+               let tokenString = String(data: identityToken, encoding: .utf8) {
+                
+                
+                self.onSuccessAppleLogin(tokenString)
+                }
+            print("useridentifier: \(userIdentifier)")
+            print("fullName: \(fullName!)")
+            print("email: \(email)")
+            print("state: \(state)")
+
+        case let passwordCredential as ASPasswordCredential:
+
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+
+            print("username: \(username)")
+            print("password: \(password)")
+
+        default:
+            break
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+        print("login error")
     }
 }

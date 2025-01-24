@@ -25,3 +25,14 @@ struct Page: Codable {
     let route: String
     let initialColor: String
 }
+
+struct PaymentInfo: Codable {
+    let pg: String
+    let paymentId: String
+    let amount: String
+    let method: String
+    let orderName: String
+    let userId: String
+    let userCode: String
+    let scheme: String
+}

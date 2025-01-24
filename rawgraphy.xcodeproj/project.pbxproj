@@ -45,7 +45,6 @@
 		3B3BDCBD2D3A4BB300B0F233 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */; };
 		3B3BDCBF2D3A4BC000B0F233 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBE2D3A4BC000B0F233 /* KakaoSDKCommon */; };
 		3B3BDCC22D3A7F4400B0F233 /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCC12D3A7F4400B0F233 /* SVGKit */; };
-		3B3BDCC42D3A7F6100B0F233 /* SVGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3BDCC32D3A7F5F00B0F233 /* SVGImage.swift */; };
 		3B3BDCC72D3A813400B0F233 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCC62D3A813400B0F233 /* Kingfisher */; };
 		3B3BDCCA2D3A868E00B0F233 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCC92D3A868E00B0F233 /* SDWebImage */; };
 		3B3BDCCD2D3A884A00B0F233 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCCC2D3A884A00B0F233 /* SDWebImageSwiftUI */; };
@@ -58,10 +57,8 @@
 		3B9716BD2D1BABD10024C34A /* rawgraphyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716BC2D1BABD10024C34A /* rawgraphyUITestsLaunchTests.swift */; };
 		3B9716E12D2525420024C34A /* RawgraphyWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716E02D2525420024C34A /* RawgraphyWebView.swift */; };
 		3B9716EA2D2526B90024C34A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716E92D2526B90024C34A /* MainView.swift */; };
-		3BBBF9872D253AB700AD8AD1 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBF9862D253AB700AD8AD1 /* TabItem.swift */; };
-		3BFF9D212D28DD7E00D12386 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF9D202D28DD7B00D12386 /* SampleViewController.swift */; };
+		3BBBF9872D253AB700AD8AD1 /* WebResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBF9862D253AB700AD8AD1 /* WebResponse.swift */; };
 		3BFF9D242D2A493000D12386 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFF9D232D2A493000D12386 /* Toast */; };
-		3BFF9D262D2A4B6100D12386 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFF9D252D2A4B5D00D12386 /* ToastManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +87,6 @@
 		3B2B39392D40BF65005FAFBE /* RouteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuilder.swift; sourceTree = "<group>"; };
 		3B2B393E2D40C5E2005FAFBE /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3B3BDCB92D3A322600B0F233 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
-		3B3BDCC32D3A7F5F00B0F233 /* SVGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGImage.swift; sourceTree = "<group>"; };
 		3B97169B2D1BABCF0024C34A /* rawgraphy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rawgraphy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rawgraphyApp.swift; sourceTree = "<group>"; };
 		3B9716A22D1BABD10024C34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,9 +100,7 @@
 		3B9716CB2D1E21CB0024C34A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3B9716E02D2525420024C34A /* RawgraphyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawgraphyWebView.swift; sourceTree = "<group>"; };
 		3B9716E92D2526B90024C34A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		3BBBF9862D253AB700AD8AD1 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
-		3BFF9D202D28DD7B00D12386 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
-		3BFF9D252D2A4B5D00D12386 /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
+		3BBBF9862D253AB700AD8AD1 /* WebResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,12 +191,9 @@
 				3B2B39372D40BE6B005FAFBE /* AppRouterGroup.swift */,
 				3B2B39332D40BD9B005FAFBE /* AppDependency.swift */,
 				3B2B39302D40ABD0005FAFBE /* SceneDelegate.swift */,
-				3B3BDCC32D3A7F5F00B0F233 /* SVGImage.swift */,
 				3B3BDCB92D3A322600B0F233 /* Dialog.swift */,
 				3B1B57702D300FA7007B1ECE /* AppDelegate.swift */,
 				3B1B576D2D300E9B007B1ECE /* GoogleService-Info.plist */,
-				3BFF9D252D2A4B5D00D12386 /* ToastManager.swift */,
-				3BFF9D202D28DD7B00D12386 /* SampleViewController.swift */,
 				3B9716CB2D1E21CB0024C34A /* Info.plist */,
 				3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */,
 				3B9716A22D1BABD10024C34A /* Assets.xcassets */,
@@ -211,7 +202,7 @@
 				3B9716E02D2525420024C34A /* RawgraphyWebView.swift */,
 				3B9716E92D2526B90024C34A /* MainView.swift */,
 				3B2B393E2D40C5E2005FAFBE /* WebView.swift */,
-				3BBBF9862D253AB700AD8AD1 /* TabItem.swift */,
+				3BBBF9862D253AB700AD8AD1 /* WebResponse.swift */,
 			);
 			path = rawgraphy;
 			sourceTree = "<group>";
@@ -431,15 +422,12 @@
 				3B2B39382D40BE6F005FAFBE /* AppRouterGroup.swift in Sources */,
 				3B9716EA2D2526B90024C34A /* MainView.swift in Sources */,
 				3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */,
-				3B3BDCC42D3A7F6100B0F233 /* SVGImage.swift in Sources */,
-				3BBBF9872D253AB700AD8AD1 /* TabItem.swift in Sources */,
+				3BBBF9872D253AB700AD8AD1 /* WebResponse.swift in Sources */,
 				3B1B57712D300FAA007B1ECE /* AppDelegate.swift in Sources */,
 				3B2B393A2D40BF67005FAFBE /* RouteBuilder.swift in Sources */,
-				3BFF9D262D2A4B6100D12386 /* ToastManager.swift in Sources */,
 				3B2B39342D40BD9F005FAFBE /* AppDependency.swift in Sources */,
 				3B9716E12D2525420024C34A /* RawgraphyWebView.swift in Sources */,
 				3B97169F2D1BABCF0024C34A /* rawgraphyApp.swift in Sources */,
-				3BFF9D212D28DD7E00D12386 /* SampleViewController.swift in Sources */,
 				3B2B39312D40ABD3005FAFBE /* SceneDelegate.swift in Sources */,
 				3B2B393F2D40C5E4005FAFBE /* WebView.swift in Sources */,
 			);
@@ -596,7 +584,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -619,7 +607,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -639,7 +627,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -662,7 +650,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

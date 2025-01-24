@@ -16,7 +16,7 @@ public struct WebView {
 extension WebView: View {
     public var body: some View {
         ZStack {
-            RawgraphyWebView(navigator: navigator, route: route).edgesIgnoringSafeArea(.all)
+            RawgraphyWebView(navigator: navigator, route: route, showDialog: { _ in })
             if route == "/splash" {
                 Color.black
                 Image("Logo")
