@@ -29,8 +29,17 @@ class WebEventHandler {
                 throw WebEventError.jsonStringEncodingFailed
             }
             
-            let script = "javascript:\(functionName)(\(jsonString));"
-            print("📝 Executing script: \(script)")
+            let script = """
+                (function() {
+                    try {
+                        \(functionName)(\(jsonString));
+                        return true;
+                    } catch(e) {
+                        console.error('Error executing \(functionName):', e);
+                        return false;
+                    }
+                })();
+            """
             
             DispatchQueue.main.async { [weak webView] in
                 webView?.evaluateJavaScript(script) { (result, error) in

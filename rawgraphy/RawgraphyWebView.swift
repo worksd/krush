@@ -9,16 +9,15 @@ struct RawgraphyWebView: UIViewRepresentable {
     let navigator: LinkNavigatorType
     let appleController = MyAppleLoginController()
     let route: String
-    let showDialog: (KloudDialogInfo) -> Void
     
     // 웹뷰를 private이 아닌 internal로 변경
     var webView: WKWebView
-    private let baseURL = "http://192.168.45.138:3000"
+//    private let baseURL = "http://192.168.45.138:3000"
+    private let baseURL = "https://kloud-alpha.vercel.app"
     
-    init(navigator: LinkNavigatorType, route: String, showDialog: @escaping (KloudDialogInfo) -> Void) {
+    init(navigator: LinkNavigatorType, route: String) {
         self.navigator = navigator
         self.route = route
-        self.showDialog = showDialog
         
         let configuration = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: configuration)

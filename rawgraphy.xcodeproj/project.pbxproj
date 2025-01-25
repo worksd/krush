@@ -46,6 +46,7 @@
 		3B2B39472D43DF86005FAFBE /* WebEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */; };
 		3B2B39492D43DF92005FAFBE /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B39482D43DF90005FAFBE /* HapticManager.swift */; };
 		3B2B394B2D43DFA3005FAFBE /* AppleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */; };
+		3B2B394D2D44720C005FAFBE /* ImageDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2B394C2D447205005FAFBE /* ImageDialogViewController.swift */; };
 		3B3BDCB82D38BDCE00B0F233 /* iamport-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCB72D38BDCE00B0F233 /* iamport-ios */; };
 		3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3BDCB92D3A322600B0F233 /* Dialog.swift */; };
 		3B3BDCBD2D3A4BB300B0F233 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3B3BDCBC2D3A4BB300B0F233 /* KakaoSDKAuth */; };
@@ -98,6 +99,7 @@
 		3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebEventHandler.swift; sourceTree = "<group>"; };
 		3B2B39482D43DF90005FAFBE /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginController.swift; sourceTree = "<group>"; };
+		3B2B394C2D447205005FAFBE /* ImageDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDialogViewController.swift; sourceTree = "<group>"; };
 		3B3BDCB92D3A322600B0F233 /* Dialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dialog.swift; sourceTree = "<group>"; };
 		3B97169B2D1BABCF0024C34A /* rawgraphy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rawgraphy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B97169E2D1BABCF0024C34A /* rawgraphyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rawgraphyApp.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		3B97169D2D1BABCF0024C34A /* rawgraphy */ = {
 			isa = PBXGroup;
 			children = (
+				3B2B394C2D447205005FAFBE /* ImageDialogViewController.swift */,
 				3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */,
 				3B2B39482D43DF90005FAFBE /* HapticManager.swift */,
 				3B2B39462D43DF83005FAFBE /* WebEventHandler.swift */,
@@ -441,6 +444,7 @@
 				3B9716EA2D2526B90024C34A /* MainView.swift in Sources */,
 				3B2B39492D43DF92005FAFBE /* HapticManager.swift in Sources */,
 				3B2B39472D43DF86005FAFBE /* WebEventHandler.swift in Sources */,
+				3B2B394D2D44720C005FAFBE /* ImageDialogViewController.swift in Sources */,
 				3B3BDCBA2D3A322800B0F233 /* Dialog.swift in Sources */,
 				3BBBF9872D253AB700AD8AD1 /* WebResponse.swift in Sources */,
 				3B2B39412D43DF47005FAFBE /* WebViewConfigurator.swift in Sources */,
@@ -608,7 +612,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -631,7 +635,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -651,7 +655,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -674,7 +678,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

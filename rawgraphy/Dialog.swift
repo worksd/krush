@@ -1,4 +1,5 @@
 import SwiftUI
+import LinkNavigator
 
 enum KloudDialogType: String {
     case simple = "SIMPLE"
@@ -19,6 +20,7 @@ struct KloudDialogInfo: Codable {
 
 struct KloudDialog: View {
     let dialogInfo: KloudDialogInfo
+    let navigator: LinkNavigatorType
     let onClick: (KloudDialogInfo) -> Void
     let onClickHideDialog: (String, Bool) -> Void
     let onDismiss: () -> Void

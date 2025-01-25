@@ -25,9 +25,20 @@ struct WebViewConfigurator {
     }
     
     static func loadURL(_ urlString: String, in webView: WKWebView) {
-        guard let url = URL(string: urlString) else { return }
-        webView.load(URLRequest(url: url))
-    }
+            guard let url = URL(string: urlString) else { return }
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "No Version"
+            
+            // 현재 UserAgent 가져오기
+            webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
+                if let currentAgent = result as? String {
+                    // 기존 UserAgent에 KloudNativeClient 추가
+                    webView.customUserAgent = "\(currentAgent) KloudNativeClient/\(version)"
+                    
+                    // UserAgent 설정 후 URL 로드
+                    webView.load(URLRequest(url: url))
+                }
+            }
+        }
     
     static func addKloudEventScript(to configuration: WKWebViewConfiguration) {
         let script = KloudEventScript.generate()

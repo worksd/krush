@@ -73,6 +73,7 @@ extension RawgraphyWebView {
                 print("❌ Invalid data for string event")
                 return
             }
+            print("handle push " + route)
             parent.navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
         }
 
@@ -136,6 +137,20 @@ extension RawgraphyWebView {
                 }
             }
         }
+        
+        private func onClickDialog (dialogInfo: KloudDialogInfo) {
+            sendWebEvent(functionName: "onDialogConfirm", data: [
+                "id": dialogInfo.id,
+                "type": dialogInfo.type,
+                "route": dialogInfo.route,
+                "hideForeverMessage": dialogInfo.hideForeverMessage,
+                "imageUrl": dialogInfo.imageUrl,
+                "imageRatio": dialogInfo.imageRatio,
+                "title": dialogInfo.title,
+                "message": dialogInfo.message,
+                "ctaButtonText": dialogInfo.ctaButtonText
+            ])
+        }
 
         private func handleShowDialog(_ data: Any?) {
             guard let dataString = data as? String else {
@@ -148,9 +163,32 @@ extension RawgraphyWebView {
             do {
                 let dialogInfo = try JSONDecoder().decode(KloudDialogInfo.self, from: dataString.data(using: .utf8) ?? Data())
                 if dialogInfo.type == "IMAGE" {
-                    DispatchQueue.main.async {
-                        self.parent.showDialog(dialogInfo)
-                    }
+                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                   let window = windowScene.windows.first,
+                                   let rootViewController = window.rootViewController {
+                                    
+                                    rootViewController.showImageDialog(
+                                        id: dialogInfo.id,
+                                        hideForeverMessage: dialogInfo.hideForeverMessage,
+                                        imageUrl: dialogInfo.imageUrl ?? "",
+                                        imageRatio: dialogInfo.imageRatio ?? 1.0,
+                                        ctaButtonText: dialogInfo.ctaButtonText,
+                                        onDismiss: {},
+                                        onClick: { [weak self] id in
+                                            // TODO: 웹뷰로 이전
+                                            self?.parent.navigator.rootNext(paths: ["web"], items: ["route": dialogInfo.route ?? ""], isAnimated: true)
+                                        },
+                                        onClickHideDialog: { [weak self] id, isHidden in
+                                            self?.sendWebEvent(
+                                                functionName: "onHideDialogConfirm",
+                                                data: [
+                                                    "id": id,
+                                                    "clicked": isHidden
+                                                ]
+                                            )
+                                        }
+                                    )
+                                }
                 } else if dialogInfo.type == "SIMPLE" {
                     let alertModel = Alert(
                         title: dialogInfo.title,
@@ -193,13 +231,15 @@ extension RawgraphyWebView {
                         userCode: paymentInfo.userCode,
                         payment: payment
                     ) { [weak self] response in
-                        self?.sendWebEvent(
-                            functionName: "onPaymentSuccess",
-                            data: [
-                                "paymentId": response?.merchant_uid,
-                                "transactionId": response?.imp_uid
-                            ]
-                        )
+                        if response?.success == true {
+                            self?.sendWebEvent(
+                                functionName: "onPaymentSuccess",
+                                data: [
+                                    "paymentId": response?.merchant_uid,
+                                    "transactionId": response?.imp_uid
+                                ]
+                            )
+                        }
                     }
                 }
             } catch {
