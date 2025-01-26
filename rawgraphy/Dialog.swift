@@ -4,6 +4,7 @@ import LinkNavigator
 enum KloudDialogType: String {
     case simple = "SIMPLE"
     case image = "IMAGE"
+    case yesOrNo = "YESORNO"
 }
 
 struct KloudDialogInfo: Codable {
@@ -47,6 +48,16 @@ struct KloudDialog: View {
                     onClick(dialogInfo)
                 },
                 onClickHideDialog: onClickHideDialog
+            )
+        } else if dialogInfo.type == KloudDialogType.yesOrNo.rawValue {
+            YesOrNoDialogScreen(
+                id: dialogInfo.id,
+                title: dialogInfo.title ?? "",
+                message: dialogInfo.message,
+                onConfirm: {
+                    onClick(dialogInfo)
+                },
+                onDismiss: onDismiss
             )
         }
     }
@@ -179,6 +190,58 @@ struct SimpleDialogScreen: View {
     }
 }
 
+struct YesOrNoDialogScreen: View {
+    let id: String
+    let title: String
+    let message: String?
+    let onConfirm: () -> Void
+    let onDismiss: () -> Void
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            Text(title)
+                .font(.system(size: 16))
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+            
+            if let message = message {
+                Text(message)
+                    .padding(.top, 8)
+                    .multilineTextAlignment(.center)
+            }
+            
+            HStack(spacing: 8) {
+                // 취소 버튼
+                Button(action: onDismiss) {
+                    Text("취소")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .foregroundColor(.black)
+                        .background(Color.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.black, lineWidth: 1)
+                        )
+                }
+                
+                // 확인 버튼
+                Button(action: onConfirm) {
+                    Text("확인")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .foregroundColor(.white)
+                        .background(Color.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            }
+            .padding(.top, 20)
+        }
+        .padding(20)
+        .background(Color(hex: 0xEFEFEF))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+    }
+}
 // Color Extension for hex support
 extension Color {
     init(hex: UInt, alpha: Double = 1) {

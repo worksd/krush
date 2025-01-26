@@ -8,11 +8,12 @@ import WebKit
 import KakaoSDKUser
 import iamport_ios
 import LinkNavigator
+import Toast
 
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast
+            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext
             case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog
             case requestPayment
         }
@@ -39,6 +40,8 @@ extension RawgraphyWebView {
                     handleClearAndPush(data)
                 case .push:
                     handlePush(data)
+                case .rootNext:
+                    handleRootNext(data)
                 case .replace:
                     handleReplace(data)
                 case .back:
@@ -76,6 +79,14 @@ extension RawgraphyWebView {
             print("handle push " + route)
             parent.navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
         }
+        
+        private func handleRootNext(_ data: Any?) {
+            guard let route = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            parent.navigator.rootNext(paths: ["web"], items: ["route": route], isAnimated: true)
+        }
 
         private func handleReplace(_ data: Any?) {
             guard let route = data as? String else {
@@ -90,6 +101,7 @@ extension RawgraphyWebView {
                 print("❌ Invalid data for string event")
                 return
             }
+           // TODO: 토스트 메시지 구현
         }
 
         private func handleNavigateMain(_ data: Any?) {
@@ -98,7 +110,12 @@ extension RawgraphyWebView {
                 print("❌ Invalid data for sendBootInfo")
                 return
             }
-            parent.navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
+            let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: dataString)) ?? BootInfo(bottomMenuList: [], route: "")
+            if bootInfo.route == "" {
+                parent.navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
+            } else {
+                parent.navigator.replace(paths: ["main", "web"], items: ["bootInfo": dataString, "route": bootInfo.route], isAnimated: true)
+            }
         }
 
         private func handleAppleLogin() {
@@ -162,34 +179,9 @@ extension RawgraphyWebView {
 
             do {
                 let dialogInfo = try JSONDecoder().decode(KloudDialogInfo.self, from: dataString.data(using: .utf8) ?? Data())
-                if dialogInfo.type == "IMAGE" {
-                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                                   let window = windowScene.windows.first,
-                                   let rootViewController = window.rootViewController {
-                                    
-                                    rootViewController.showImageDialog(
-                                        id: dialogInfo.id,
-                                        hideForeverMessage: dialogInfo.hideForeverMessage,
-                                        imageUrl: dialogInfo.imageUrl ?? "",
-                                        imageRatio: dialogInfo.imageRatio ?? 1.0,
-                                        ctaButtonText: dialogInfo.ctaButtonText,
-                                        onDismiss: {},
-                                        onClick: { [weak self] id in
-                                            // TODO: 웹뷰로 이전
-                                            self?.parent.navigator.rootNext(paths: ["web"], items: ["route": dialogInfo.route ?? ""], isAnimated: true)
-                                        },
-                                        onClickHideDialog: { [weak self] id, isHidden in
-                                            self?.sendWebEvent(
-                                                functionName: "onHideDialogConfirm",
-                                                data: [
-                                                    "id": id,
-                                                    "clicked": isHidden
-                                                ]
-                                            )
-                                        }
-                                    )
-                                }
-                } else if dialogInfo.type == "SIMPLE" {
+                if dialogInfo.type == KloudDialogType.image.rawValue {
+                    showDialog(dialogInfo: dialogInfo)
+                } else if dialogInfo.type == KloudDialogType.simple.rawValue {
                     let alertModel = Alert(
                         title: dialogInfo.title,
                         message: dialogInfo.message,
@@ -197,10 +189,49 @@ extension RawgraphyWebView {
                         flagType: .default
                     )
                     parent.navigator.alert(target: .default, model: alertModel)
+                } else if dialogInfo.type == KloudDialogType.yesOrNo.rawValue {
+                    let alertModel = Alert(
+                        title: dialogInfo.title,
+                        message: dialogInfo.message,
+                        buttons: [.init(title: "확인", style: .default, action: {
+                            self.onClickDialog(dialogInfo: dialogInfo)
+                        }), .init(title: "취소", style: .cancel, action: {})],
+                        flagType: .default
+                    )
+                    parent.navigator.alert(target: .default, model: alertModel)
                 }
             } catch {
                 print("❌ Dialog parsing error:", error)
             }
+        }
+        
+        private func showDialog(dialogInfo: KloudDialogInfo) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let window = windowScene.windows.first,
+                           let rootViewController = window.rootViewController {
+                            
+                            rootViewController.showImageDialog(
+                                id: dialogInfo.id,
+                                hideForeverMessage: dialogInfo.hideForeverMessage,
+                                imageUrl: dialogInfo.imageUrl ?? "",
+                                imageRatio: dialogInfo.imageRatio ?? 1.0,
+                                ctaButtonText: dialogInfo.ctaButtonText,
+                                onDismiss: {},
+                                onClick: { [weak self] id in
+                                    // TODO: 웹뷰로 이전
+                                    self?.parent.navigator.rootNext(paths: ["web"], items: ["route": dialogInfo.route ?? ""], isAnimated: true)
+                                },
+                                onClickHideDialog: { [weak self] id, isHidden in
+                                    self?.sendWebEvent(
+                                        functionName: "onHideDialogConfirm",
+                                        data: [
+                                            "id": id,
+                                            "clicked": isHidden
+                                        ]
+                                    )
+                                }
+                            )
+                        }
         }
 
         private func handlePayment(_ data: Any?) {
@@ -214,7 +245,7 @@ extension RawgraphyWebView {
                 let payment = IamportPayment(
                     pg: paymentInfo.pg,
                     merchant_uid: paymentInfo.paymentId,
-                    amount: paymentInfo.amount
+                    amount: "250" // TODO: 하드코딩 수정
                 ).then {
                     $0.pay_method = paymentInfo.method
                     $0.name = paymentInfo.orderName
@@ -239,6 +270,8 @@ extension RawgraphyWebView {
                                     "transactionId": response?.imp_uid
                                 ]
                             )
+                        } else {
+                            self?.sendWebEvent(functionName: "onErrorInvoked", data: ["code": response?.error_code])
                         }
                     }
                 }
