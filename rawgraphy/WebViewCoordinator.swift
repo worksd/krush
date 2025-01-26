@@ -218,8 +218,7 @@ extension RawgraphyWebView {
                                 ctaButtonText: dialogInfo.ctaButtonText,
                                 onDismiss: {},
                                 onClick: { [weak self] id in
-                                    // TODO: 웹뷰로 이전
-                                    self?.parent.navigator.rootNext(paths: ["web"], items: ["route": dialogInfo.route ?? ""], isAnimated: true)
+                                    self?.onClickDialog(dialogInfo: dialogInfo)
                                 },
                                 onClickHideDialog: { [weak self] id, isHidden in
                                     self?.sendWebEvent(
