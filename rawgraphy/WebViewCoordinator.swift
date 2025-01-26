@@ -245,7 +245,7 @@ extension RawgraphyWebView {
                 let payment = IamportPayment(
                     pg: paymentInfo.pg,
                     merchant_uid: paymentInfo.paymentId,
-                    amount: "250" // TODO: 하드코딩 수정
+                    amount: paymentInfo.amount
                 ).then {
                     $0.pay_method = paymentInfo.method
                     $0.name = paymentInfo.orderName
