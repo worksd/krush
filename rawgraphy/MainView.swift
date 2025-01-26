@@ -19,6 +19,7 @@ public struct MainView {
         self.navigator = navigator
         let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: bootInfoCommand)) ?? BootInfo(bottomMenuList: [], route: "")
         self.menuItems = bootInfo.bottomMenuList
+        
     }
 }
 
