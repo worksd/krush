@@ -280,6 +280,8 @@ extension RawgraphyWebView {
         }
 
         private func sendWebEvent(functionName: String, data: [String: Any]) {
+            print("functionName = \(functionName)")
+            print("data = \(data)")
             WebEventHandler.sendWebEvent(functionName: functionName, data: data, webView: parent.webView)
         }
     }

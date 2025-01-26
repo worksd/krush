@@ -17,6 +17,7 @@ struct KloudEventScript {
             push: function(data) { sendMessage('push', data); },
             replace: function(data) { sendMessage('replace', data); },
             back: function() { sendMessage('back'); },
+            rootNext: function(data) { sendMessage('rootNext', data); },
             clearToken: function() { sendMessage('clearToken'); },
             navigateMain: function(data) { sendMessage('navigateMain', data); },
             showToast: function(data) { sendMessage('showToast', data); },
