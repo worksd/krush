@@ -120,8 +120,8 @@ extension RawgraphyWebView {
 
         private func handleAppleLogin() {
             print("sendAppleLogin")
-            parent.appleController.showAppleLogin(onSuccessAppleLogin: { code in
-                self.sendWebEvent(functionName: "onAppleLoginSuccess", data: ["code": code])
+            parent.appleController.showAppleLogin(onSuccessAppleLogin: { code, name in
+                self.sendWebEvent(functionName: "onAppleLoginSuccess", data: ["code": code, "name": name])
             })
         }
 

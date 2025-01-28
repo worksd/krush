@@ -9,9 +9,9 @@ import UIKit
 import AuthenticationServices
 
 class MyAppleLoginController: UIViewController {
-    var onSuccessAppleLogin: (String) -> Void = { _ in }
+    var onSuccessAppleLogin: (String, String) -> Void = { code, name in }
 
-    func showAppleLogin(onSuccessAppleLogin: @escaping (String) -> Void) {
+    func showAppleLogin(onSuccessAppleLogin: @escaping (String, String) -> Void) {
         self.onSuccessAppleLogin = onSuccessAppleLogin
     
         let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -28,7 +28,7 @@ extension MyAppleLoginController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName?.description
+            let fullName = appleIDCredential.fullName
             let email = appleIDCredential.email
             let state = appleIDCredential.state
 
@@ -36,11 +36,11 @@ extension MyAppleLoginController: ASAuthorizationControllerDelegate {
                let identityToken = appleIDCredential.identityToken,
                let authString = String(data: authorizationCode, encoding: .utf8),
                let tokenString = String(data: identityToken, encoding: .utf8) {
-                self.onSuccessAppleLogin(tokenString)
+                self.onSuccessAppleLogin(tokenString, "\(fullName?.familyName ?? "") \(fullName?.givenName ?? "")")
             }
             
             print("useridentifier: \(userIdentifier)")
-            print("fullName: \(fullName ?? "")")
+            print("fullName: \(fullName?.description ?? "")")
             print("email: \(email ?? "")")
             print("state: \(state ?? "")")
 

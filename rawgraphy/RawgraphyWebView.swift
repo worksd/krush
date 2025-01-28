@@ -12,7 +12,7 @@ struct RawgraphyWebView: UIViewRepresentable {
     
     // 웹뷰를 private이 아닌 internal로 변경
     var webView: WKWebView
-//    private let baseURL = "http://192.168.45.43:3000"
+//    private let baseURL = "http://10.184.244.237:3000"
     private let baseURL = "https://kloud-alpha.vercel.app"
     
     init(navigator: LinkNavigatorType, route: String) {
