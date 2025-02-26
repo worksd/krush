@@ -9,16 +9,18 @@ import KakaoSDKUser
 import iamport_ios
 import LinkNavigator
 import Toast
+import FirebaseMessaging
 
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext
+            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet
             case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog
-            case requestPayment
+            case requestPayment, registerDevice
         }
 
         var parent: RawgraphyWebView
+        var isFcmTokenSent = false
 
         init(_ parent: RawgraphyWebView) {
             self.parent = parent
@@ -38,6 +40,8 @@ extension RawgraphyWebView {
             switch type {
                 case .clearAndPush:
                     handleClearAndPush(data)
+                case .fullSheet:
+                    handleFullSheet(data)
                 case .push:
                     handlePush(data)
                 case .rootNext:
@@ -60,6 +64,8 @@ extension RawgraphyWebView {
                     handleShowDialog(data)
                 case .requestPayment:
                     handlePayment(data)
+                case .registerDevice:
+                    sendFcmToken()
             }
         }
 
@@ -69,6 +75,14 @@ extension RawgraphyWebView {
                 return
             }
             parent.navigator.replace(paths: ["web"], items: ["route": route], isAnimated: true)
+        }
+        
+        private func handleFullSheet(_ data: Any?) {
+            guard let route = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            parent.navigator.fullSheet(paths: ["web"], items: ["route": route], isAnimated: true, prefersLargeTitles: false)
         }
 
         private func handlePush(_ data: Any?) {
@@ -277,6 +291,27 @@ extension RawgraphyWebView {
             } catch {
                 print("❌ Payment parsing error:", error)
             }
+        }
+        
+        private func sendFcmToken() {
+            Messaging.messaging().token { token, error in
+                    if let error = error {
+                        print("Error fetching FCM token: \(error)")
+                        return
+                    }
+                    
+                    // UDID 가져오기 (실제로는 IDFV를 사용)
+                    let udid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+                    
+                    // 웹으로 전송
+                    self.sendWebEvent(
+                        functionName: "onFcmTokenComplete",
+                        data: [
+                            "fcmToken": token ?? "",
+                            "udid": udid
+                        ]
+                    )
+                }
         }
 
         private func sendWebEvent(functionName: String, data: [String: Any]) {

@@ -1,9 +1,6 @@
 import SwiftUI
 import WebKit
-import KakaoSDKUser
 import LinkNavigator
-import AuthenticationServices
-import iamport_ios
 
 struct RawgraphyWebView: UIViewRepresentable {
     let navigator: LinkNavigatorType
@@ -12,7 +9,7 @@ struct RawgraphyWebView: UIViewRepresentable {
     
     // 웹뷰를 private이 아닌 internal로 변경
     var webView: WKWebView
-//    private let baseURL = "http://10.184.244.237:3000"
+//    private let baseURL = "http://172.16.15.45:3000"
     private let baseURL = "https://kloud-alpha.vercel.app"
     
     init(navigator: LinkNavigatorType, route: String) {

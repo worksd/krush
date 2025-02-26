@@ -71,10 +71,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-//        let route = notification.request.content.userInfo["route"] as? String ?? ""
-        let route = "/lessons/11"
+        let userInfo = response.notification.request.content.userInfo
+        let route = userInfo["route"] as? String ?? ""
         print(route)
-        navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
+        if route != "" {
+            navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
+        }
     }
 }
 

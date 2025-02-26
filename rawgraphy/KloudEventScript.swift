@@ -15,6 +15,7 @@ struct KloudEventScript {
         window.KloudEvent = {
             clearAndPush: function(data) { sendMessage('clearAndPush', data); },
             push: function(data) { sendMessage('push', data); },
+            fullSheet: function(data) { sendMessage('fullSheet', data); },
             replace: function(data) { sendMessage('replace', data); },
             back: function() { sendMessage('back'); },
             rootNext: function(data) { sendMessage('rootNext', data); },
@@ -25,7 +26,8 @@ struct KloudEventScript {
             sendAppleLogin: function() { sendMessage('sendAppleLogin'); },
             sendKakaoLogin: function() { sendMessage('sendKakaoLogin'); },
             showDialog: function(data) { sendMessage('showDialog', data); },
-            requestPayment: function(data) { sendMessage('requestPayment', data); }
+            requestPayment: function(data) { sendMessage('requestPayment', data); },
+            registerDevice: function(data) { sendMessage('registerDevice'); }
         };
 
         function sendMessage(type, data = null) {
