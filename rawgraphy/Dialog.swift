@@ -17,6 +17,8 @@ struct KloudDialogInfo: Codable {
     let title: String?
     let message: String?
     let ctaButtonText: String?
+    let confirmTitle: String?
+    let cancelTitle: String?
 }
 
 struct KloudDialog: View {
@@ -34,6 +36,7 @@ struct KloudDialog: View {
                 id: dialogInfo.id,
                 title: dialogInfo.title ?? "",
                 message: dialogInfo.message,
+                confirmTitle: dialogInfo.confirmTitle ?? "",
                 onDismiss: onDismiss
             )
         } else if dialogInfo.type == KloudDialogType.image.rawValue {
@@ -57,7 +60,9 @@ struct KloudDialog: View {
                 onConfirm: {
                     onClick(dialogInfo)
                 },
-                onDismiss: onDismiss
+                onDismiss: onDismiss,
+                confirmTitle: dialogInfo.confirmTitle ?? "",
+                cancelTitle: dialogInfo.cancelTitle ?? ""
             )
         }
     }
@@ -158,6 +163,7 @@ struct SimpleDialogScreen: View {
     let id: String
     let title: String
     let message: String?
+    let confirmTitle: String
     let onDismiss: () -> Void
     
     var body: some View {
@@ -175,7 +181,7 @@ struct SimpleDialogScreen: View {
             }
             
             Button(action: onDismiss) {
-                Text("확인")
+                Text(confirmTitle)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
                     .foregroundColor(.white)
@@ -196,6 +202,8 @@ struct YesOrNoDialogScreen: View {
     let message: String?
     let onConfirm: () -> Void
     let onDismiss: () -> Void
+    let confirmTitle: String
+    let cancelTitle: String
     
     var body: some View {
         VStack(alignment: .center) {
@@ -214,7 +222,7 @@ struct YesOrNoDialogScreen: View {
             HStack(spacing: 8) {
                 // 취소 버튼
                 Button(action: onDismiss) {
-                    Text("취소")
+                    Text(cancelTitle)
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
                         .foregroundColor(.black)
@@ -227,7 +235,7 @@ struct YesOrNoDialogScreen: View {
                 
                 // 확인 버튼
                 Button(action: onConfirm) {
-                    Text("확인")
+                    Text(confirmTitle)
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
                         .foregroundColor(.white)

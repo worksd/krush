@@ -27,7 +27,10 @@ struct KloudEventScript {
             sendKakaoLogin: function() { sendMessage('sendKakaoLogin'); },
             showDialog: function(data) { sendMessage('showDialog', data); },
             requestPayment: function(data) { sendMessage('requestPayment', data); },
-            registerDevice: function(data) { sendMessage('registerDevice'); }
+            registerDevice: function(data) { sendMessage('registerDevice'); },
+            showBottomSheet: function(data) { sendMessage('showBottomSheet', data); },
+            closeBottomSheet: function() { sendMessage('closeBottomSheet');},
+            changeWebEndpoint: function(data) { sendMessage('changeWebEndpoint', data); }
         };
 
         function sendMessage(type, data = null) {

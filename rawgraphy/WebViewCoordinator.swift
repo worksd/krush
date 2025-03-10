@@ -14,8 +14,8 @@ import FirebaseMessaging
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet
-            case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog
+            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet
+            case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint
             case requestPayment, registerDevice
         }
 
@@ -66,6 +66,34 @@ extension RawgraphyWebView {
                     handlePayment(data)
                 case .registerDevice:
                     sendFcmToken()
+                case .showBottomSheet:
+                    showBottomSheet(data)
+                case .closeBottomSheet:
+                    closeBottomSheet()
+                case .changeWebEndpoint:
+                    handleWebEndpoint(data)
+            }
+        }
+        
+        private func handleWebEndpoint(_ data: Any?) {
+            guard let endpoint = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            UserDefaults.standard.set(endpoint, forKey: "endpoint")
+        }
+        
+        private func showBottomSheet(_ data: Any?) {
+            guard let route = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            parent.navigator.customSheet(paths: ["web"], items: ["route" : route], isAnimated: true, iPhonePresentationStyle: .popover, iPadPresentationStyle: .popover, prefersLargeTitles: .none)
+        }
+        
+        private func closeBottomSheet() {
+            parent.navigator.close(isAnimated: true) {
+                
             }
         }
 
@@ -199,7 +227,7 @@ extension RawgraphyWebView {
                     let alertModel = Alert(
                         title: dialogInfo.title,
                         message: dialogInfo.message,
-                        buttons: [.init(title: "확인", style: .default, action: {})],
+                        buttons: [.init(title: dialogInfo.confirmTitle, style: .default, action: {})],
                         flagType: .default
                     )
                     parent.navigator.alert(target: .default, model: alertModel)
@@ -207,9 +235,9 @@ extension RawgraphyWebView {
                     let alertModel = Alert(
                         title: dialogInfo.title,
                         message: dialogInfo.message,
-                        buttons: [.init(title: "확인", style: .default, action: {
+                        buttons: [.init(title: dialogInfo.confirmTitle, style: .default, action: {
                             self.onClickDialog(dialogInfo: dialogInfo)
-                        }), .init(title: "취소", style: .cancel, action: {})],
+                        }), .init(title: dialogInfo.cancelTitle, style: .cancel, action: {})],
                         flagType: .default
                     )
                     parent.navigator.alert(target: .default, model: alertModel)

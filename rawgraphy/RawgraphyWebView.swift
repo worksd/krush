@@ -9,8 +9,6 @@ struct RawgraphyWebView: UIViewRepresentable {
     
     // 웹뷰를 private이 아닌 internal로 변경
     var webView: WKWebView
-//    private let baseURL = "http://172.16.15.45:3000"
-    private let baseURL = "https://kloud-alpha.vercel.app"
     
     init(navigator: LinkNavigatorType, route: String) {
         self.navigator = navigator
@@ -26,6 +24,9 @@ struct RawgraphyWebView: UIViewRepresentable {
         
         WebViewConfigurator.addKloudEventScript(to: configuration)
         WebViewConfigurator.configure(webView)
+//        let defaultUrl = "http://192.168.0.4:3000"
+        let defaultUrl = "https://kloud-git-develop-rawgraphy-inc.vercel.app"
+        let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultUrl
         WebViewConfigurator.loadURL(baseURL + route, in: webView)
     }
     
