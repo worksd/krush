@@ -66,13 +66,32 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        let hideNotification = userInfo["hideNotification"] as? String ?? "false"
+        let endpoints = (userInfo["endpointsToRefresh"] as? String ?? "").split(separator: ",").map { String($0) }
 
-        return completionHandler([.list, .banner])
+        print("willPresent" + hideNotification)
+        print("willPresent: " + endpoints.joined(separator: ", "))
+        if !endpoints.isEmpty {
+            NotificationCenter.default.post(
+                name: Notification.Name("RefreshWebView"),
+                object: nil,
+                userInfo: ["endpoints": endpoints]
+            )
+        }
+        if hideNotification == "true" {
+            // 알림 표시하지 않음
+            completionHandler([])
+        } else {
+            // 알림 표시
+            completionHandler([.list, .banner, .sound])
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
         let route = userInfo["route"] as? String ?? ""
+        print("didReceive" + route)
         print(route)
         if route != "" {
             navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
