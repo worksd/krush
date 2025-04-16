@@ -30,7 +30,8 @@ struct KloudEventScript {
             registerDevice: function(data) { sendMessage('registerDevice'); },
             showBottomSheet: function(data) { sendMessage('showBottomSheet', data); },
             closeBottomSheet: function() { sendMessage('closeBottomSheet');},
-            changeWebEndpoint: function(data) { sendMessage('changeWebEndpoint', data); }
+            changeWebEndpoint: function(data) { sendMessage('changeWebEndpoint', data); },
+            openExternalBrowser: function(data) { sendMessage('openExternalBrowser', data); },
         };
 
         function sendMessage(type, data = null) {

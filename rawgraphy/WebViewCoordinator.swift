@@ -15,7 +15,7 @@ extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
             case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet
-            case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint
+            case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint, openExternalBrowser
             case requestPayment, registerDevice
         }
 
@@ -72,6 +72,8 @@ extension RawgraphyWebView {
                     closeBottomSheet()
                 case .changeWebEndpoint:
                     handleWebEndpoint(data)
+                case .openExternalBrowser:
+                    handleOpenExternalBrowser(data)
             }
         }
         
@@ -81,6 +83,14 @@ extension RawgraphyWebView {
                 return
             }
             UserDefaults.standard.set(endpoint, forKey: "endpoint")
+        }
+        
+        private func handleOpenExternalBrowser(_ data: Any?) {
+            guard let url = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            UIApplication.shared.open(URL(string: url)!)
         }
         
         private func showBottomSheet(_ data: Any?) {
@@ -227,7 +237,9 @@ extension RawgraphyWebView {
                     let alertModel = Alert(
                         title: dialogInfo.title,
                         message: dialogInfo.message,
-                        buttons: [.init(title: dialogInfo.confirmTitle, style: .default, action: {})],
+                        buttons: [.init(title: dialogInfo.confirmTitle, style: .default, action: {
+                            self.onClickDialog(dialogInfo: dialogInfo)
+                        })],
                         flagType: .default
                     )
                     parent.navigator.alert(target: .default, model: alertModel)
