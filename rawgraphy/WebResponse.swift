@@ -35,4 +35,5 @@ struct PaymentInfo: Codable {
     let userId: String
     let userCode: String
     let scheme: String
+    let customData: String
 }

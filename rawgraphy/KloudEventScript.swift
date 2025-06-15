@@ -14,6 +14,7 @@ struct KloudEventScript {
         document.getElementsByTagName('head')[0].appendChild(meta);
         window.KloudEvent = {
             clearAndPush: function(data) { sendMessage('clearAndPush', data); },
+            refresh: function(data) { sendMessage('refresh', data);},
             push: function(data) { sendMessage('push', data); },
             fullSheet: function(data) { sendMessage('fullSheet', data); },
             replace: function(data) { sendMessage('replace', data); },

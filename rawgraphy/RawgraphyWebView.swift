@@ -27,7 +27,7 @@ struct RawgraphyWebView: UIViewRepresentable {
         let defaultUrl = "https://rawgraphy.com"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultUrl
         WebViewConfigurator.loadURL(baseURL + route, in: webView)
-//        WebViewConfigurator.loadURL("http://192.168.0.12:3000" + route, in: webView)
+//        WebViewConfigurator.loadURL("http://192.168.219.81:3000" + route, in: webView)
     }
     
     func makeCoordinator() -> Coordinator {

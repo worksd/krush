@@ -14,7 +14,7 @@ import FirebaseMessaging
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler {
         enum KloudEventType: String {
-            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet
+            case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet, refresh
             case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint, openExternalBrowser
             case requestPayment, registerDevice
         }
@@ -40,6 +40,8 @@ extension RawgraphyWebView {
             switch type {
                 case .clearAndPush:
                     handleClearAndPush(data)
+                case .refresh:
+                    handleRefresh(data)
                 case .fullSheet:
                     handleFullSheet(data)
                 case .push:
@@ -113,6 +115,14 @@ extension RawgraphyWebView {
                 return
             }
             parent.navigator.replace(paths: ["web"], items: ["route": route], isAnimated: true)
+        }
+        
+        private func handleRefresh(_ data: Any?) {
+            guard let route = data as? String else {
+                print("❌ Invalid data for string event")
+                return
+            }
+            parent.navigator.rootReloadLast(items: ["route": route], isAnimated: true)
         }
         
         private func handleFullSheet(_ data: Any?) {
