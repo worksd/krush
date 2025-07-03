@@ -19,6 +19,7 @@ struct KloudDialogInfo: Codable {
     let ctaButtonText: String?
     let confirmTitle: String?
     let cancelTitle: String?
+    let customData: String?
 }
 
 struct KloudDialog: View {

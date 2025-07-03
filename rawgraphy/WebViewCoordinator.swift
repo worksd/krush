@@ -118,6 +118,7 @@ extension RawgraphyWebView {
         }
         
         private func handleRefresh(_ data: Any?) {
+            print(data)
             guard let route = data as? String else {
                 print("❌ Invalid data for string event")
                 return
@@ -227,7 +228,8 @@ extension RawgraphyWebView {
                 "imageRatio": dialogInfo.imageRatio,
                 "title": dialogInfo.title,
                 "message": dialogInfo.message,
-                "ctaButtonText": dialogInfo.ctaButtonText
+                "ctaButtonText": dialogInfo.ctaButtonText,
+                "customData": dialogInfo.customData
             ])
         }
 
