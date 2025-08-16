@@ -4,81 +4,49 @@ import LinkNavigator
 
 struct RawgraphyWebView: UIViewRepresentable {
     let navigator: LinkNavigatorType
-    let appleController = MyAppleLoginController()
     let route: String
-    
-    // 웹뷰를 private이 아닌 internal로 변경
-    var webView: WKWebView
-    
-    init(navigator: LinkNavigatorType, route: String) {
-        self.navigator = navigator
-        self.route = route
-        
-        let configuration = WKWebViewConfiguration()
-        let webView = WKWebView(frame: .zero, configuration: configuration)
-        self.webView = webView
-        
-        // Coordinator 생성 및 설정
-        let coordinator = Coordinator(self)
-        configuration.userContentController.add(coordinator, name: "KloudEvent")
-        
-        WebViewConfigurator.addKloudEventScript(to: configuration)
-        WebViewConfigurator.configure(webView)
-        let defaultUrl = "https://rawgraphy.com"
-        let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultUrl
-        WebViewConfigurator.loadURL(baseURL + route, in: webView)
-//        WebViewConfigurator.loadURL("http://192.168.45.174:3000" + route, in: webView)
-    }
-    
+
+    // Apple 로그인 컨트롤러는 코디네이터로 주입
+    private let appleController = MyAppleLoginController()
+
+    // 세션/쿠키 공유 (탭 전환 시에도 동일 프로세스/세션 유지)
+    private static let sharedProcessPool = WKProcessPool()
+
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        // WebViewCoordinator.swift 에서 정의한 Coordinator(navigator:appleController:) 사용
+        Coordinator(navigator: navigator, appleController: appleController)
     }
-    
+
     func makeUIView(context: Context) -> WKWebView {
-        NotificationCenter.default.addObserver(forName: Notification.Name("RefreshWebView"),
-                                               object: nil,
-                                               queue: .main) { notification in
-            print("📬 Received RefreshWebView notification")
+        let config = WKWebViewConfiguration()
+        config.processPool = Self.sharedProcessPool
 
-            guard let userInfo = notification.userInfo else {
-                print("⚠️ No userInfo found in notification")
-                return
-            }
+        // 스크립트/메시지 채널 등록 (여기서 1회)
+        config.userContentController.add(context.coordinator, name: "KloudEvent")
+        WebViewConfigurator.addKloudEventScript(to: config)
 
-            print("📦 userInfo: \(userInfo)")
+        let webView = WKWebView(frame: .zero, configuration: config)
+        WebViewConfigurator.configure(webView)
 
-            guard let endpoints = userInfo["endpoints"] as? [String] else {
-                print("⚠️ 'endpoints' not found or not a [String] in userInfo")
-                return
-            }
+        // 코디네이터에 실제 인스턴스 바인딩 (웹 ↔ 네이티브 이벤트용)
+        context.coordinator.bind(webView)
 
-            guard let fullURL = webView.url,
-                  let components = URLComponents(url: fullURL, resolvingAgainstBaseURL: false) else {
-                print("⚠️ WebView URL is nil or malformed")
-                return
-            }
+        // 최초 로드
+        let defaultBase = "https://rawgraphy.com"
+//        let defaultBase = "http://192.168.45.136:3000"
+        let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
+        WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)
 
-            let path = components.path
-            let query = components.query
-            let pathAndQuery = query != nil ? "\(path)?\(query!)" : path
-
-            print("🌐 Full WebView URL: \(fullURL.absoluteString)")
-            print("🧩 Parsed path + query: \(pathAndQuery)")
-            print("🗂️ Endpoints to refresh: \(endpoints)")
-
-            let matched = endpoints.filter { pathAndQuery.hasPrefix($0) }
-
-            if !matched.isEmpty {
-                print("✅ Match found! Matching endpoint(s): \(matched)")
-                print("🔁 Reloading WebView...")
-                webView.reload()
-            } else {
-                print("❌ No matching endpoint. Skipping reload.")
-            }
-        }
-
+        print("makeUIView 생성: \(route)")
         return webView
     }
-    
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // route 변경 시에만 필요하다면 여기서 처리 (현재는 no-op)
+    }
+
+    static func dismantleUIView(_ uiView: WKWebView, coordinator: Coordinator) {
+        // 중복 핸들러 방지용 정리
+        uiView.configuration.userContentController.removeScriptMessageHandler(forName: "KloudEvent")
+    }
 }
