@@ -41,7 +41,7 @@ struct RawgraphyWebView: UIViewRepresentable {
         let defaultBase = "https://rawgraphy.com"
 //        let defaultBase = "http://192.168.0.90:3000"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
-        webView.navigationDelegate = context.coordinator
+        
         WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)
 
         print("makeUIView 생성: \(route)")
