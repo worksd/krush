@@ -1,5 +1,5 @@
 {
-  "originHash" : "3b422a519d2e28aef7bac83eb179e4509f59db2c09fd60c325f8e6efabbfbe86",
+  "originHash" : "19530f31d6e984cc3f128359a9e88df782d1358de510ea48950ba7ce888a9226",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -116,6 +116,15 @@
       "state" : {
         "revision" : "2d12673670417654f08f5f90fdd62926dc3a2648",
         "version" : "100.0.0"
+      }
+    },
+    {
+      "identity" : "ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/portone-io/ios-sdk.git",
+      "state" : {
+        "revision" : "841c90f7ae0e55542848b5237895e6c1c6deb523",
+        "version" : "0.1.1"
       }
     },
     {

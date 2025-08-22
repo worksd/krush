@@ -64,8 +64,10 @@
 		3B9716BD2D1BABD10024C34A /* rawgraphyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716BC2D1BABD10024C34A /* rawgraphyUITestsLaunchTests.swift */; };
 		3B9716E12D2525420024C34A /* RawgraphyWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716E02D2525420024C34A /* RawgraphyWebView.swift */; };
 		3B9716EA2D2526B90024C34A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9716E92D2526B90024C34A /* MainView.swift */; };
+		3BB09C112E5848AB006BF10E /* PortOneSdk in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB09C102E5848AB006BF10E /* PortOneSdk */; };
 		3BBBF9872D253AB700AD8AD1 /* WebResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBF9862D253AB700AD8AD1 /* WebResponse.swift */; };
 		3BD50FF02D7BD3200000CF12 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 3BD50FEF2D7BD3200000CF12 /* BottomSheet */; };
+		3BE0D1202E584E600099FBFE /* PortOneLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0D11F2E584E5C0099FBFE /* PortOneLauncher.swift */; };
 		3BFF9D242D2A493000D12386 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFF9D232D2A493000D12386 /* Toast */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +118,7 @@
 		3B9716E02D2525420024C34A /* RawgraphyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawgraphyWebView.swift; sourceTree = "<group>"; };
 		3B9716E92D2526B90024C34A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3BBBF9862D253AB700AD8AD1 /* WebResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebResponse.swift; sourceTree = "<group>"; };
+		3BE0D11F2E584E5C0099FBFE /* PortOneLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortOneLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,7 @@
 				3B1B577D2D300FD2007B1ECE /* FirebaseAuth in Frameworks */,
 				3B1B57A12D300FD3007B1ECE /* FirebaseVertexAI in Frameworks */,
 				3B1B579D2D300FD2007B1ECE /* FirebaseStorage in Frameworks */,
+				3BB09C112E5848AB006BF10E /* PortOneSdk in Frameworks */,
 				3B1B579B2D300FD2007B1ECE /* FirebaseRemoteConfig in Frameworks */,
 				3B3BDCB82D38BDCE00B0F233 /* iamport-ios in Frameworks */,
 				3B1B578F2D300FD2007B1ECE /* FirebaseFunctionsCombine-Community in Frameworks */,
@@ -203,6 +207,7 @@
 		3B97169D2D1BABCF0024C34A /* rawgraphy */ = {
 			isa = PBXGroup;
 			children = (
+				3BE0D11F2E584E5C0099FBFE /* PortOneLauncher.swift */,
 				3B2B394C2D447205005FAFBE /* ImageDialogViewController.swift */,
 				3B2B394A2D43DF9F005FAFBE /* AppleLoginController.swift */,
 				3B2B39482D43DF90005FAFBE /* HapticManager.swift */,
@@ -315,6 +320,7 @@
 				3B2B392D2D40A7DD005FAFBE /* KakaoSDKUser */,
 				3B2B39352D40BE19005FAFBE /* LinkNavigator */,
 				3BD50FEF2D7BD3200000CF12 /* BottomSheet */,
+				3BB09C102E5848AB006BF10E /* PortOneSdk */,
 			);
 			productName = rawgraphy;
 			productReference = 3B97169B2D1BABCF0024C34A /* rawgraphy.app */;
@@ -400,6 +406,7 @@
 				3B3BDCCE2D3A8CCD00B0F233 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */,
 				3B2B39322D40BD66005FAFBE /* XCRemoteSwiftPackageReference "LinkNavigator" */,
 				3BD50FEE2D7BD1D90000CF12 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+				3BB09C0F2E584885006BF10E /* XCRemoteSwiftPackageReference "ios-sdk" */,
 			);
 			productRefGroup = 3B97169C2D1BABCF0024C34A /* Products */;
 			projectDirPath = "";
@@ -461,6 +468,7 @@
 				3B9716E12D2525420024C34A /* RawgraphyWebView.swift in Sources */,
 				3B97169F2D1BABCF0024C34A /* rawgraphyApp.swift in Sources */,
 				3B2B39312D40ABD3005FAFBE /* SceneDelegate.swift in Sources */,
+				3BE0D1202E584E600099FBFE /* PortOneLauncher.swift in Sources */,
 				3B2B393F2D40C5E4005FAFBE /* WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -897,6 +905,14 @@
 				minimumVersion = 1.8.0;
 			};
 		};
+		3BB09C0F2E584885006BF10E /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/portone-io/ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
 		3BD50FEE2D7BD1D90000CF12 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/lucaszischka/BottomSheet";
@@ -1085,6 +1101,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B3BDCCE2D3A8CCD00B0F233 /* XCRemoteSwiftPackageReference "SDWebImageSVGCoder" */;
 			productName = SDWebImageSVGCoder;
+		};
+		3BB09C102E5848AB006BF10E /* PortOneSdk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BB09C0F2E584885006BF10E /* XCRemoteSwiftPackageReference "ios-sdk" */;
+			productName = PortOneSdk;
 		};
 		3BD50FEF2D7BD3200000CF12 /* BottomSheet */ = {
 			isa = XCSwiftPackageProductDependency;

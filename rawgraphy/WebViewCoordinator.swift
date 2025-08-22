@@ -1,7 +1,7 @@
 // WebViewCoordinator.swift
 import WebKit
 import KakaoSDKUser
-import iamport_ios
+import PortOneSdk
 import LinkNavigator
 import Toast
 import FirebaseMessaging
@@ -245,38 +245,55 @@ extension RawgraphyWebView {
                 )
             }
         }
+        
+        private func topMostViewController() -> UIViewController? {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  var top = window.rootViewController else { return nil }
+
+            while let presented = top.presentedViewController { top = presented }
+            return top
+        }
 
         private func handlePayment(_ data: Any?) {
-            guard let dataString = data as? String else { return }
-            do {
-                let paymentInfo = try JSONDecoder().decode(PaymentInfo.self, from: Data(dataString.utf8))
-                let payment = IamportPayment(pg: paymentInfo.pg,
-                                             merchant_uid: paymentInfo.paymentId,
-                                             amount: paymentInfo.amount).then {
-                    $0.pay_method = paymentInfo.method
-                    $0.name = paymentInfo.orderName
-                    $0.buyer_name = paymentInfo.userId
-                    $0.app_scheme = paymentInfo.scheme
-                }
+            guard let dataString = data as? String,
+                  let top = topMostViewController() else { return }
 
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let window = windowScene.windows.first,
-                   let root = window.rootViewController {
-                    Iamport.shared.payment(
-                        viewController: root,
-                        userCode: paymentInfo.userCode,
-                        payment: payment
-                    ) { [weak self] response in
-                        if response?.success == true {
-                            self?.sendWebEvent(functionName: "onPaymentSuccess",
-                                               data: ["paymentId": response?.merchant_uid,
-                                                      "transactionId": response?.imp_uid])
-                        } else {
-                            self?.sendWebEvent(functionName: "onErrorInvoked",
-                                               data: ["code": response?.error_code])
+            do {
+                let info = try JSONDecoder().decode(PaymentInfo.self, from: Data(dataString.utf8))
+
+                let params: [String: Any] = [
+                    "storeId": info.storeId,
+                    "channelKey": info.channelKey,
+                    "paymentId": info.paymentId,
+                    "orderName": info.orderName,
+                    "totalAmount": info.price,
+                    "customer":  [
+                        "fullName ": info.userId
+                    ],
+                    "currency": "KRW",
+                    "payMethod": "CARD",
+                    "appScheme": "rawgraphy://"
+                ]
+
+                DispatchQueue.main.async(execute: { [weak self] in
+                    guard let self = self else { return }
+
+                    MyPortOneLauncher.present(from: top, params: params, onCompletion: { result in
+                        switch result {
+                        case .success(let payload):
+                            print("결제 성공: \(payload)")
+                            self.sendWebEvent(functionName: "onPaymentSuccess",
+                                              data: ["paymentId": payload.paymentId])
+
+                        case .failure(let error):
+                            print("결제 실패: \(error)")
+                            self.sendWebEvent(functionName: "onErrorInvoked",
+                                              data: ["paymentId": info.paymentId,
+                                                     "message": error.localizedDescription])
                         }
-                    }
-                }
+                    })
+                })
             } catch {
                 print("❌ Payment parsing error:", error)
             }

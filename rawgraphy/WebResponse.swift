@@ -27,13 +27,16 @@ struct Page: Codable {
 }
 
 struct PaymentInfo: Codable {
-    let pg: String
+    let channelKey: String
+    let storeId: String
     let paymentId: String
-    let amount: String
+    let price: Int
     let method: String
     let orderName: String
     let userId: String
-    let userCode: String
-    let scheme: String
     let customData: String
+}
+
+struct CustomerInfo: Codable {
+    let name: String
 }
