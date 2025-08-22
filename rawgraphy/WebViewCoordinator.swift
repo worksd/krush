@@ -7,7 +7,7 @@ import Toast
 import FirebaseMessaging
 
 extension RawgraphyWebView {
-    class Coordinator: NSObject, WKScriptMessageHandler {
+    class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
 
         enum KloudEventType: String {
             case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet, refresh
@@ -20,10 +20,15 @@ extension RawgraphyWebView {
         private let navigator: LinkNavigatorType
         private let appleController: MyAppleLoginController
         private var isFcmTokenSent = false
+        private let onLoadFailedChange: (Bool) -> Void
 
-        init(navigator: LinkNavigatorType, appleController: MyAppleLoginController) {
+
+        init(navigator: LinkNavigatorType,
+             appleController: MyAppleLoginController,
+             onLoadFailedChange: @escaping (Bool) -> Void) {
             self.navigator = navigator
             self.appleController = appleController
+            self.onLoadFailedChange = onLoadFailedChange
         }
 
         // makeUIView에서 생성된 실제 인스턴스를 바인딩
@@ -39,6 +44,21 @@ extension RawgraphyWebView {
 
             print(type.rawValue + " : " + String(describing: body))
             handleEvent(type: type, data: body["data"])
+        }
+        
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            onLoadFailedChange(false)
+        }
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            onLoadFailedChange(false)
+        }
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("❌ didFailProvisionalNavigation:", error.localizedDescription)
+            onLoadFailedChange(true)
+        }
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("❌ didFail:", error.localizedDescription)
+            onLoadFailedChange(true)
         }
 
         private func handleEvent(type: KloudEventType, data: Any?) {
@@ -269,7 +289,7 @@ extension RawgraphyWebView {
                     "orderName": info.orderName,
                     "totalAmount": info.price,
                     "customer":  [
-                        "fullName ": info.userId
+                        "fullName": info.userId
                     ],
                     "currency": "KRW",
                     "payMethod": "CARD",
