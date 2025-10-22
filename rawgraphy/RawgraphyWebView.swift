@@ -32,14 +32,15 @@ struct RawgraphyWebView: UIViewRepresentable {
         WebViewConfigurator.addKloudEventScript(to: config)
 
         let webView = WKWebView(frame: .zero, configuration: config)
+        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
         WebViewConfigurator.configure(webView)
 
         // 코디네이터에 실제 인스턴스 바인딩 (웹 ↔ 네이티브 이벤트용)
         context.coordinator.bind(webView)
 
         // 최초 로드
-        let defaultBase = "https://rawgraphy.com"
-//        let defaultBase = "http://192.168.0.90:3000"
+        let defaultBase = "https://staging.rawgraphy.com"
+//        let defaultBase = "http://192.168.0.40:3000"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
         
         WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)

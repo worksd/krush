@@ -4,6 +4,19 @@ import LinkNavigator
 public struct WebView {
     let navigator: LinkNavigatorType
     let route: String
+    let title: String?
+    let ignoreSafeArea: Bool?
+    
+    init(navigator: LinkNavigatorType, route: String, loadFailed: Bool = false) {
+        self.navigator = navigator
+        let routeInfo = (try? JSONDecoder().decode(RouteInfo.self, from: Data(route.utf8)))
+        self.route = routeInfo?.route ?? route
+        self.ignoreSafeArea = routeInfo?.ignoreSafeArea
+        self.title = routeInfo?.title
+        self.loadFailed = loadFailed
+        print("WebView")
+        print("route = \(self.route) ignoreSafeArea = \(String(describing: self.ignoreSafeArea))")
+    }
 
     // ✅ 추가: 에러 상태 & 리로드 토큰
     @State private var loadFailed = false
@@ -76,5 +89,60 @@ extension WebView: View {
             }
         }
         .navigationBarHidden(true)
+        .modifier(SafeAreaModifier(enabled: ignoreSafeArea == true))
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if let title {
+                TitleBar(
+                    title: title,
+                    onBack: {
+                        // 네이티브 네비 우선
+                        navigator.back(isAnimated: true)
+                    }
+                )
+            }
+        }
+    }
+}
+
+private struct SafeAreaModifier: ViewModifier {
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        if enabled {
+            content.ignoresSafeArea()
+        } else {
+            content
+        }
+    }
+}
+
+
+private struct TitleBar: View {
+    let title: String
+    var onBack: () -> Void
+
+    var body: some View {
+        ZStack {
+            HStack(spacing: 12) {
+                Button(action: onBack) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 17, weight: .semibold))
+                        .frame(width: 36, height: 36)
+                        .foregroundColor(.black)
+                        .clipShape(Circle())
+                }
+                .contentShape(Rectangle())
+
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .lineLimit(1)
+
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 12)
+            .padding(.bottom, 8) // 하단 여백으로 시각적 균형
+        }
+        .frame(height: 56)       // 타이틀바 자체 높이(안전영역 제외)
     }
 }

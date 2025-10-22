@@ -13,6 +13,12 @@ struct BootInfo: Codable {
     let route: String
 }
 
+struct RouteInfo: Codable {
+    let route: String
+    let ignoreSafeArea: Bool
+    let title: String?
+}
+
 struct BottomMenuItem: Codable {
     let label: String
     let labelSize: Int

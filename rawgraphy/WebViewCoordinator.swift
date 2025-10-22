@@ -132,9 +132,8 @@ extension RawgraphyWebView {
         }
 
         private func handlePush(_ data: Any?) {
-            guard let route = data as? String else { return }
-            print("handle push " + route)
-            navigator.next(paths: ["web"], items: ["route": route], isAnimated: true)
+            guard let routeInfo = data as? String else { return }
+            navigator.next(paths: ["web"], items: ["route": routeInfo], isAnimated: true)
         }
 
         private func handleRootNext(_ data: Any?) {
