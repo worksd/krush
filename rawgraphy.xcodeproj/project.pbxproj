@@ -624,7 +624,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -667,7 +667,7 @@
 				CODE_SIGN_ENTITLEMENTS = rawgraphy/rawgraphy.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"rawgraphy/Preview Content\"";
 				DEVELOPMENT_TEAM = AWMR6W6KV4;
 				ENABLE_HARDENED_RUNTIME = YES;

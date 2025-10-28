@@ -83,10 +83,10 @@ public struct MainView: View {
         // 1) bootInfo 디코딩
         let bootInfo: BootInfo = {
             guard let data = bootInfoCommand.data(using: .utf8) else {
-                return BootInfo(bottomMenuList: [], route: "")
+                return BootInfo(bottomMenuList: [], routeInfo: RouteInfo(route: nil, ignoreSafeArea: nil, title: nil, withClose: nil))
             }
             return (try? JSONDecoder().decode(BootInfo.self, from: data))
-                ?? BootInfo(bottomMenuList: [], route: "")
+                ?? BootInfo(bottomMenuList: [], routeInfo: RouteInfo(route: nil, ignoreSafeArea: nil, title: nil, withClose: nil))
         }()
 
         // 2) 메뉴 주입
@@ -94,9 +94,9 @@ public struct MainView: View {
 
         // 3) 초기 탭 결정: bootInfo.route가 메뉴에 있으면 그거, 아니면 첫 탭, 없으면 "/home"
         let initial: String = {
-            if !bootInfo.route.isEmpty,
-               bootInfo.bottomMenuList.contains(where: { $0.page.route == bootInfo.route }) {
-                return bootInfo.route
+            if !(bootInfo.routeInfo.route ?? "").isEmpty,
+               bootInfo.bottomMenuList.contains(where: { $0.page.route == bootInfo.routeInfo.route }) {
+                return bootInfo.routeInfo.route ?? ""
             }
             return bootInfo.bottomMenuList.first?.page.route ?? "/home"
         }()

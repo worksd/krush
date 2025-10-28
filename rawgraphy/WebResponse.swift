@@ -10,13 +10,14 @@ import Foundation
 // MARK: - 데이터 모델
 struct BootInfo: Codable {
     let bottomMenuList: [BottomMenuItem]
-    let route: String
+    let routeInfo: RouteInfo
 }
 
 struct RouteInfo: Codable {
-    let route: String
-    let ignoreSafeArea: Bool
+    let route: String?
+    let ignoreSafeArea: Bool?
     let title: String?
+    let withClose: Bool?
 }
 
 struct BottomMenuItem: Codable {
