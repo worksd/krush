@@ -155,11 +155,11 @@ extension RawgraphyWebView {
             guard let dataString = data as? String else { return }
             let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: Data(dataString.utf8)))
             ?? BootInfo(bottomMenuList: [], routeInfo: RouteInfo(route: nil, ignoreSafeArea: nil, title: nil, withClose: nil))
-            if (bootInfo.routeInfo.route ?? "").isEmpty {
-                navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
-            } else {
-                navigator.replace(paths: ["main", "web"],
-                                  items: ["bootInfo": dataString, "route": bootInfo.routeInfo.route ?? ""],
+            navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
+
+            if (bootInfo.routeInfo.route ?? "").isEmpty == false {
+                navigator.next(paths: ["web"],
+                                  items: ["route": bootInfo.routeInfo.toJSONString() ?? ""],
                                   isAnimated: true)
             }
         }

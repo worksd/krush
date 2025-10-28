@@ -14,8 +14,8 @@ public struct WebView {
         self.ignoreSafeArea = routeInfo?.ignoreSafeArea
         self.title = routeInfo?.title
         self.loadFailed = loadFailed
-        print("WebView")
-        print("route = \(self.route) ignoreSafeArea = \(String(describing: self.ignoreSafeArea))")
+        print("routeInfo ")
+        print(routeInfo)
     }
 
     // ✅ 추가: 에러 상태 & 리로드 토큰

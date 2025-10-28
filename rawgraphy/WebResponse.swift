@@ -20,6 +20,19 @@ struct RouteInfo: Codable {
     let withClose: Bool?
 }
 
+extension RouteInfo {
+    func toJSONString(pretty: Bool = false) -> String? {
+        let encoder = JSONEncoder()
+        if pretty {
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        } else {
+            encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
+        }
+        guard let data = try? encoder.encode(self) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+}
+
 struct BottomMenuItem: Codable {
     let label: String
     let labelSize: Int
