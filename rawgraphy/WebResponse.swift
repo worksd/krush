@@ -10,7 +10,7 @@ import Foundation
 // MARK: - 데이터 모델
 struct BootInfo: Codable {
     let bottomMenuList: [BottomMenuItem]
-    let routeInfo: RouteInfo
+    let route: String
 }
 
 struct RouteInfo: Codable {

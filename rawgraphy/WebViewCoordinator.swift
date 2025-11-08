@@ -154,12 +154,14 @@ extension RawgraphyWebView {
         private func handleNavigateMain(_ data: Any?) {
             guard let dataString = data as? String else { return }
             let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: Data(dataString.utf8)))
-            ?? BootInfo(bottomMenuList: [], routeInfo: RouteInfo(route: nil, ignoreSafeArea: nil, title: nil, withClose: nil))
+            ?? BootInfo(bottomMenuList: [], route: "")
             navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
 
-            if (bootInfo.routeInfo.route ?? "").isEmpty == false {
+            let route = (try? JSONDecoder().decode(RouteInfo.self, from: Data(bootInfo.route.utf8)))?.route ?? ""
+
+            if  route.isEmpty == false {
                 navigator.next(paths: ["web"],
-                                  items: ["route": bootInfo.routeInfo.toJSONString() ?? ""],
+                               items: ["route": route],
                                   isAnimated: true)
             }
         }
