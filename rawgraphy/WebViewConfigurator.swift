@@ -32,7 +32,8 @@ struct WebViewConfigurator {
             webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
                 if let currentAgent = result as? String {
                     // 기존 UserAgent에 KloudNativeClient 추가
-                    webView.customUserAgent = "\(currentAgent) KloudNativeClient/\(version)"
+                    let idfv = UIDevice.current.identifierForVendor?.uuidString ?? "nil"
+                    webView.customUserAgent = "\(currentAgent) KloudNativeClient/\(version)/\(idfv)"
                     
                     // UserAgent 설정 후 URL 로드
                     webView.load(URLRequest(url: url))

@@ -294,7 +294,10 @@ extension RawgraphyWebView {
                     ],
                     "currency": "KRW",
                     "payMethod": "CARD",
-                    "appScheme": "rawgraphy://"
+                    "appScheme": "rawgraphy://",
+                    "customData": [
+                        "actualPayerUserId": 361
+                    ]
                 ]
 
                 DispatchQueue.main.async(execute: { [weak self] in
