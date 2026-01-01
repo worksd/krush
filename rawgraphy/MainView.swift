@@ -3,17 +3,25 @@ import SDWebImageSwiftUI
 import LinkNavigator
 
 struct MainNavigationView: View {
+    let bootInfo: BootInfo
     let menuItems: [BottomMenuItem]
     let navigator: LinkNavigatorType
-    @Binding var selectedRoute: String   // ✅ Binding으로 선언
 
-    // ✅ 명시적 이니셜라이저 (Binding 주입)
-    init(menuItems: [BottomMenuItem],
-         navigator: LinkNavigatorType,
-         selectedRoute: Binding<String>) {
+    @Binding var selectedRoute: String
+
+    // ✅ 딥링크(bootInfo.route) 1회 처리 가드
+    @State private var didHandleBootRoute: Bool = false
+
+    init(
+        bootInfo: BootInfo,
+        menuItems: [BottomMenuItem],
+        navigator: LinkNavigatorType,
+        selectedRoute: Binding<String>
+    ) {
         self.menuItems = menuItems
         self.navigator = navigator
         self._selectedRoute = selectedRoute
+        self.bootInfo = bootInfo
     }
 
     var body: some View {
@@ -43,8 +51,8 @@ struct MainNavigationView: View {
                     .tag(item.page.route)
                 }
             }
+            // ✅ 초기 탭 세팅은 별도 task로 유지
             .task {
-                // 부모에서 비어 있는 값으로 내려온 경우만 기본값 세팅
                 if selectedRoute.isEmpty {
                     selectedRoute = menuItems.first?.page.route ?? "/home"
                 }
@@ -53,6 +61,30 @@ struct MainNavigationView: View {
         .tint(.black)
         .preferredColorScheme(.light)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+        // ✅ onAppear 대신: route 값이 바뀔 때만 실행됨
+        .task(id: bootInfo.route) {
+            // route 없으면 패스
+            guard !bootInfo.route.isEmpty else { return }
+            // 이미 처리했으면 패스 (중복 push 방지)
+            guard !didHandleBootRoute else { return }
+
+            let routeInfo = try? JSONDecoder().decode(
+                RouteInfo.self,
+                from: Data(bootInfo.route.utf8)
+            )
+
+            guard routeInfo?.route != nil else { return }
+
+            didHandleBootRoute = true
+            print("boot route:", bootInfo.route)
+
+            navigator.next(
+                paths: ["web"],
+                items: ["route": routeInfo?.toJSONString() ?? ""],
+                isAnimated: true
+            )
+        }
     }
 }
 
@@ -64,7 +96,7 @@ private struct LazyTabContent: View {
     var body: some View {
         Group {
             if isActive {
-                WebView(navigator: navigator, route: route) // ✅ 선택 탭만 생성
+                WebView(navigator: navigator, route: route)
                     .id(route)
             } else {
                 Color.clear
@@ -72,15 +104,16 @@ private struct LazyTabContent: View {
         }
     }
 }
+
 public struct MainView: View {
     @State private var selectedRoute: String
     private let navigator: LinkNavigatorType
     private let menuItems: [BottomMenuItem]
+    private let bootInfo: BootInfo
 
     public init(navigator: LinkNavigatorType, bootInfoCommand: String) {
         self.navigator = navigator
 
-        // 1) bootInfo 디코딩
         let bootInfo: BootInfo = {
             guard let data = bootInfoCommand.data(using: .utf8) else {
                 return BootInfo(bottomMenuList: [], route: "")
@@ -88,8 +121,7 @@ public struct MainView: View {
             return (try? JSONDecoder().decode(BootInfo.self, from: data))
                 ?? BootInfo(bottomMenuList: [], route: "")
         }()
-
-        // 2) 메뉴 주입
+        self.bootInfo = bootInfo
         self.menuItems = bootInfo.bottomMenuList
 
         _selectedRoute = State(initialValue: "/home")
@@ -97,6 +129,7 @@ public struct MainView: View {
 
     public var body: some View {
         MainNavigationView(
+            bootInfo: bootInfo,
             menuItems: menuItems,
             navigator: navigator,
             selectedRoute: $selectedRoute

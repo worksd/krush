@@ -153,17 +153,7 @@ extension RawgraphyWebView {
 
         private func handleNavigateMain(_ data: Any?) {
             guard let dataString = data as? String else { return }
-            let bootInfo = (try? JSONDecoder().decode(BootInfo.self, from: Data(dataString.utf8)))
-            ?? BootInfo(bottomMenuList: [], route: "")
             navigator.replace(paths: ["main"], items: ["bootInfo": dataString], isAnimated: true)
-
-            let route = (try? JSONDecoder().decode(RouteInfo.self, from: Data(bootInfo.route.utf8)))?.route ?? ""
-
-            if  route.isEmpty == false {
-                navigator.next(paths: ["web"],
-                               items: ["route": route],
-                                  isAnimated: true)
-            }
         }
 
         private func handleAppleLogin() {
