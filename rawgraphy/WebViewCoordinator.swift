@@ -273,43 +273,69 @@ extension RawgraphyWebView {
             do {
                 let info = try JSONDecoder().decode(PaymentInfo.self, from: Data(dataString.utf8))
 
+                // ✅ customData 파싱 (실패 시 빈 dict)
+                let customData: [String: Any] = {
+                    guard let parsed = parseCustomData(info.customData) else {
+                        return [:]
+                    }
+                    return parsed
+                }()
+
                 let params: [String: Any] = [
                     "storeId": info.storeId,
                     "channelKey": info.channelKey,
                     "paymentId": info.paymentId,
                     "orderName": info.orderName,
                     "totalAmount": info.price,
-                    "customer":  [
+                    "customer": [
                         "fullName": info.userId
                     ],
                     "currency": "KRW",
                     "payMethod": "CARD",
                     "appScheme": "rawgraphy://",
-                    "customData": [
-                        "actualPayerUserId": 361
-                    ]
+                    "customData": customData
                 ]
 
-                DispatchQueue.main.async(execute: { [weak self] in
+                DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
 
                     MyPortOneLauncher.present(from: top, params: params, onCompletion: { result in
                         switch result {
                         case .success(let payload):
                             print("결제 성공: \(payload)")
-                            self.sendWebEvent(functionName: "onPaymentSuccess",
-                                              data: ["paymentId": payload.paymentId])
+                            self.sendWebEvent(
+                                functionName: "onPaymentSuccess",
+                                data: ["paymentId": payload.paymentId]
+                            )
 
                         case .failure(let error):
                             print("결제 실패: \(error)")
-                            self.sendWebEvent(functionName: "onErrorInvoked",
-                                              data: ["paymentId": info.paymentId,
-                                                     "message": error.localizedDescription])
+                            self.sendWebEvent(
+                                functionName: "onErrorInvoked",
+                                data: [
+                                    "paymentId": info.paymentId,
+                                    "message": error.localizedDescription
+                                ]
+                            )
                         }
                     })
-                })
+                }
             } catch {
                 print("❌ Payment parsing error:", error)
+            }
+        }
+        
+        func parseCustomData(_ jsonString: String) -> [String: Any]? {
+            guard let data = jsonString.data(using: .utf8) else {
+                return nil
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                return json as? [String: Any]
+            } catch {
+                print("customData JSON parse error:", error)
+                return nil
             }
         }
 
