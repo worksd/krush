@@ -26,6 +26,8 @@ struct RawgraphyWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         config.processPool = Self.sharedProcessPool
+        config.allowsInlineMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = []
 
         // 스크립트/메시지 채널 등록 (여기서 1회)
         config.userContentController.add(context.coordinator, name: "KloudEvent")
@@ -40,7 +42,7 @@ struct RawgraphyWebView: UIViewRepresentable {
 
         // 최초 로드
         let defaultBase = "https://rawgraphy.com"
-//        let defaultBase = "http://192.168.0.26:3000"
+//        let defaultBase = "http://192.168.45.171:3002"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
         
         WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)

@@ -33,6 +33,7 @@ struct KloudEventScript {
             closeBottomSheet: function() { sendMessage('closeBottomSheet');},
             changeWebEndpoint: function(data) { sendMessage('changeWebEndpoint', data); },
             openExternalBrowser: function(data) { sendMessage('openExternalBrowser', data); },
+            requestCameraPermission: function() { sendMessage('requestCameraPermission'); },
         };
 
         function sendMessage(type, data = null) {

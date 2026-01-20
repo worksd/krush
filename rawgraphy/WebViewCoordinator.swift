@@ -5,6 +5,7 @@ import PortOneSdk
 import LinkNavigator
 import Toast
 import FirebaseMessaging
+import AVFoundation
 
 extension RawgraphyWebView {
     class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
@@ -12,7 +13,7 @@ extension RawgraphyWebView {
         enum KloudEventType: String {
             case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet, refresh
             case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint, openExternalBrowser
-            case requestPayment, registerDevice
+            case requestPayment, registerDevice, requestCameraPermission
         }
 
         // 👇 변경 포인트
@@ -82,6 +83,7 @@ extension RawgraphyWebView {
             case .closeBottomSheet:  closeBottomSheet()
             case .changeWebEndpoint: handleWebEndpoint(data)
             case .openExternalBrowser: handleOpenExternalBrowser(data)
+            case .requestCameraPermission: handleRequestCameraPermission()
             }
         }
 
@@ -348,6 +350,25 @@ extension RawgraphyWebView {
                 let udid = UIDevice.current.identifierForVendor?.uuidString ?? ""
                 self?.sendWebEvent(functionName: "onFcmTokenComplete",
                                    data: ["fcmToken": token ?? "", "udid": udid])
+            }
+        }
+
+        private func handleRequestCameraPermission() {
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+
+            switch status {
+            case .authorized:
+                sendWebEvent(functionName: "onCameraPermissionResult", data: ["granted": true])
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+                    DispatchQueue.main.async {
+                        self?.sendWebEvent(functionName: "onCameraPermissionResult", data: ["granted": granted])
+                    }
+                }
+            case .denied, .restricted:
+                sendWebEvent(functionName: "onCameraPermissionResult", data: ["granted": false])
+            @unknown default:
+                sendWebEvent(functionName: "onCameraPermissionResult", data: ["granted": false])
             }
         }
 
