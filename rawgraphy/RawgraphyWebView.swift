@@ -5,6 +5,7 @@ import LinkNavigator
 struct RawgraphyWebView: UIViewRepresentable {
     let navigator: LinkNavigatorType
     let route: String
+    let ignoreSafeArea: Bool
 
     // Apple 로그인 컨트롤러는 코디네이터로 주입
     private let appleController = MyAppleLoginController()
@@ -34,7 +35,7 @@ struct RawgraphyWebView: UIViewRepresentable {
         WebViewConfigurator.addKloudEventScript(to: config)
 
         let webView = WKWebView(frame: .zero, configuration: config)
-        webView.scrollView.contentInsetAdjustmentBehavior = .automatic
+        webView.scrollView.contentInsetAdjustmentBehavior = ignoreSafeArea ? .never : .automatic
         WebViewConfigurator.configure(webView)
 
         // 코디네이터에 실제 인스턴스 바인딩 (웹 ↔ 네이티브 이벤트용)
@@ -42,7 +43,7 @@ struct RawgraphyWebView: UIViewRepresentable {
 
         // 최초 로드
         let defaultBase = "https://rawgraphy.com"
-//        let defaultBase = "http://192.168.45.171:3002"
+//        let defaultBase = "http://192.168.0.26:3002"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
         
         WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)

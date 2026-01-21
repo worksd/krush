@@ -28,8 +28,10 @@ extension WebView: View {
             RawgraphyWebView(
                 navigator: navigator,
                 route: route,
+                ignoreSafeArea: ignoreSafeArea == true,
                 loadFailed: $loadFailed
             )
+            .ignoresSafeArea(ignoreSafeArea == true ? .all : [])
 
             if route == "/splash" {
                 Color.black.ignoresSafeArea()
