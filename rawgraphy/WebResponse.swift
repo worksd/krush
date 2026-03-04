@@ -55,6 +55,7 @@ struct PaymentInfo: Codable {
     let orderName: String
     let userId: String
     let customData: String
+    let locale: String?
 }
 
 struct CustomerInfo: Codable {

@@ -13,6 +13,7 @@ struct RawgraphyWebView: UIViewRepresentable {
     // 세션/쿠키 공유 (탭 전환 시에도 동일 프로세스/세션 유지)
     private static let sharedProcessPool = WKProcessPool()
     @Binding var loadFailed: Bool
+    @Binding var estimatedProgress: Double
 
     func makeCoordinator() -> Coordinator {
         // WebViewCoordinator.swift 에서 정의한 Coordinator(navigator:appleController:) 사용
@@ -20,6 +21,10 @@ struct RawgraphyWebView: UIViewRepresentable {
             // 메인쓰레드에서 상태 반영
             DispatchQueue.main.async {
                 self.loadFailed = failed
+            }
+        }, onProgressChange: { progress in
+            DispatchQueue.main.async {
+                self.estimatedProgress = progress
             }
         })
     }
@@ -43,7 +48,6 @@ struct RawgraphyWebView: UIViewRepresentable {
 
         // 최초 로드
         let defaultBase = "https://rawgraphy.com"
-//        let defaultBase = "http://192.168.0.26:3002"
         let baseURL = UserDefaults.standard.string(forKey: "endpoint") ?? defaultBase
         
         WebViewConfigurator.loadURL("\(baseURL)\(route)", in: webView)

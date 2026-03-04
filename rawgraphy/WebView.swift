@@ -20,6 +20,7 @@ public struct WebView {
 
     // ✅ 추가: 에러 상태 & 리로드 토큰
     @State private var loadFailed = false
+    @State private var estimatedProgress: Double = 0
 }
 
 extension WebView: View {
@@ -29,9 +30,17 @@ extension WebView: View {
                 navigator: navigator,
                 route: route,
                 ignoreSafeArea: ignoreSafeArea == true,
-                loadFailed: $loadFailed
+                loadFailed: $loadFailed,
+                estimatedProgress: $estimatedProgress
             )
             .ignoresSafeArea(ignoreSafeArea == true ? .all : [])
+
+            // 로딩 스피너
+            if estimatedProgress > 0 && estimatedProgress < 1 {
+                Color.white
+                    .ignoresSafeArea()
+                ActivityIndicatorView()
+            }
 
             if route == "/splash" {
                 Color.black.ignoresSafeArea()
@@ -104,6 +113,31 @@ extension WebView: View {
             }
         }
     }
+}
+
+// 커스텀 스피너 (검은색 원호 회전) - 나중에 전환 예정
+//private struct ActivityIndicatorView: View {
+//    @State private var isAnimating = false
+//
+//    var body: some View {
+//        Circle()
+//            .trim(from: 0, to: 0.7)
+//            .stroke(Color.black, lineWidth: 3)
+//            .frame(width: 30, height: 30)
+//            .rotationEffect(.degrees(isAnimating ? 360 : 0))
+//            .animation(.linear(duration: 0.8).repeatForever(autoreverses: false), value: isAnimating)
+//            .onAppear { isAnimating = true }
+//    }
+//}
+
+private struct ActivityIndicatorView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .black
+        indicator.startAnimating()
+        return indicator
+    }
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {}
 }
 
 private struct SafeAreaModifier: ViewModifier {

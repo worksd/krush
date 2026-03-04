@@ -22,19 +22,27 @@ extension RawgraphyWebView {
         private let appleController: MyAppleLoginController
         private var isFcmTokenSent = false
         private let onLoadFailedChange: (Bool) -> Void
+        private let onProgressChange: (Double) -> Void
+        private var progressObservation: NSKeyValueObservation?
 
 
         init(navigator: LinkNavigatorType,
              appleController: MyAppleLoginController,
-             onLoadFailedChange: @escaping (Bool) -> Void) {
+             onLoadFailedChange: @escaping (Bool) -> Void,
+             onProgressChange: @escaping (Double) -> Void) {
             self.navigator = navigator
             self.appleController = appleController
             self.onLoadFailedChange = onLoadFailedChange
+            self.onProgressChange = onProgressChange
         }
 
         // makeUIView에서 생성된 실제 인스턴스를 바인딩
         func bind(_ webView: WKWebView) {
             self.webView = webView
+            // KVO로 estimatedProgress 관찰
+            progressObservation = webView.observe(\.estimatedProgress, options: [.new]) { [weak self] webView, _ in
+                self?.onProgressChange(webView.estimatedProgress)
+            }
         }
 
         // MARK: - WKScriptMessageHandler
@@ -283,6 +291,14 @@ extension RawgraphyWebView {
                     return parsed
                 }()
 
+                let locale: String = {
+                    switch info.locale {
+                    case "EN_US": return "EN_US"
+                    case "ZH_CN": return "ZH_CN"
+                    default: return "KO_KR"
+                    }
+                }()
+
                 let params: [String: Any] = [
                     "storeId": info.storeId,
                     "channelKey": info.channelKey,
@@ -294,6 +310,7 @@ extension RawgraphyWebView {
                     ],
                     "currency": "KRW",
                     "payMethod": "CARD",
+                    "locale": locale,
                     "appScheme": "rawgraphy://",
                     "customData": customData
                 ]
