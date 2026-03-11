@@ -54,8 +54,12 @@ struct PaymentInfo: Codable {
     let method: String
     let orderName: String
     let userId: String
+    let userName: String?
+    let userPhone: String?
+    let userBirth: String?
     let customData: String
     let locale: String?
+    let pgProvider: String?
 }
 
 struct CustomerInfo: Codable {

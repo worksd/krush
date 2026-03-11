@@ -299,21 +299,40 @@ extension RawgraphyWebView {
                     }
                 }()
 
-                let params: [String: Any] = [
+                var customer: [String: Any] = [
+                    "customerId": info.userId
+                ]
+                if let userName = info.userName, !userName.isEmpty {
+                    customer["fullName"] = userName
+                }
+                if let userPhone = info.userPhone, !userPhone.isEmpty {
+                    customer["phoneNumber"] = userPhone
+                }
+                if let userBirth = info.userBirth, userBirth.count == 6 {
+                    let yy = Int(userBirth.prefix(2)) ?? 0
+                    let fullYear = yy <= 26 ? 2000 + yy : 1900 + yy
+                    let mm = String(userBirth.dropFirst(2).prefix(2))
+                    let dd = String(userBirth.dropFirst(4).prefix(2))
+                    customer["birthDate"] = "\(fullYear)-\(mm)-\(dd)"
+                }
+
+                var params: [String: Any] = [
                     "storeId": info.storeId,
                     "channelKey": info.channelKey,
                     "paymentId": info.paymentId,
                     "orderName": info.orderName,
                     "totalAmount": info.price,
-                    "customer": [
-                        "fullName": info.userId
-                    ],
+                    "customer": customer,
                     "currency": "KRW",
                     "payMethod": "CARD",
                     "locale": locale,
                     "appScheme": "rawgraphy://",
                     "customData": customData
                 ]
+
+                if let pgProvider = info.pgProvider, !pgProvider.isEmpty {
+                    params["pgProvider"] = pgProvider
+                }
 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
