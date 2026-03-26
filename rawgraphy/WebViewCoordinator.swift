@@ -324,11 +324,24 @@ extension RawgraphyWebView {
                     "totalAmount": info.price,
                     "customer": customer,
                     "currency": "KRW",
-                    "payMethod": "CARD",
                     "locale": locale,
                     "appScheme": "rawgraphy://",
                     "customData": customData
                 ]
+
+                switch info.method.lowercased() {
+                case "kakaopay":
+                    params["payMethod"] = "EASY_PAY"
+                    params["easyPayProvider"] = "KAKAOPAY"
+                case "naverpay":
+                    params["payMethod"] = "EASY_PAY"
+                    params["easyPayProvider"] = "NAVERPAY"
+                case "tosspay":
+                    params["payMethod"] = "EASY_PAY"
+                    params["easyPayProvider"] = "TOSSPAY"
+                default:
+                    params["payMethod"] = "CARD"
+                }
 
                 if let pgProvider = info.pgProvider, !pgProvider.isEmpty {
                     params["pgProvider"] = pgProvider
