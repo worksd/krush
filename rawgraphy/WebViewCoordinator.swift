@@ -332,13 +332,19 @@ extension RawgraphyWebView {
                 switch info.method.lowercased() {
                 case "kakaopay":
                     params["payMethod"] = "EASY_PAY"
-                    params["easyPayProvider"] = "KAKAOPAY"
+                    params["easyPay"] = ["easyPayProvider": "KAKAOPAY"]
                 case "naverpay":
                     params["payMethod"] = "EASY_PAY"
-                    params["easyPayProvider"] = "NAVERPAY"
+                    params["easyPay"] = [
+                        "easyPayProvider": "NAVERPAY",
+                        "availablePayMethods": ["CARD"]
+                    ] as [String: Any]
                 case "tosspay":
                     params["payMethod"] = "EASY_PAY"
-                    params["easyPayProvider"] = "TOSSPAY"
+                    params["easyPay"] = [
+                        "easyPayProvider": "TOSSPAY",
+                        "availablePayMethods": ["CARD"]
+                    ] as [String: Any]
                 default:
                     params["payMethod"] = "CARD"
                 }
@@ -361,11 +367,20 @@ extension RawgraphyWebView {
 
                         case .failure(let error):
                             print("결제 실패: \(error)")
+                            let errorMessage: String
+                            switch error {
+                            case .failed(_, _, _, let message, _, let pgMessage):
+                                errorMessage = message ?? pgMessage ?? "결제에 실패하였습니다."
+                            case .invalidArgument(let message):
+                                errorMessage = message
+                            case .unknown(let message):
+                                errorMessage = message
+                            }
                             self.sendWebEvent(
                                 functionName: "onErrorInvoked",
                                 data: [
                                     "paymentId": info.paymentId,
-                                    "message": error.localizedDescription
+                                    "message": errorMessage
                                 ]
                             )
                         }
