@@ -35,8 +35,18 @@ struct AppMain: App {
         }.onOpenURL { url in
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.handleOpenUrl(url: url)
+                return
             }
-            print("success!" + url.absoluteString)
+
+            // 딥링크 처리: rawgraphy://lessons/1638 → /splash?link=/lessons/1638
+            let path = "/" + (url.host ?? "") + url.path
+            if path.count > 1 {
+                navigator.replace(
+                    paths: ["web"],
+                    items: ["route": "/splash?link=\(path)"],
+                    isAnimated: false
+                )
+            }
         }
     }
   }

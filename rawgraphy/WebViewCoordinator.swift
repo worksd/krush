@@ -13,7 +13,7 @@ extension RawgraphyWebView {
         enum KloudEventType: String {
             case clearAndPush, push, replace, back, navigateMain, showToast, rootNext, fullSheet, showBottomSheet, closeBottomSheet, refresh
             case sendAppleLogin, sendHapticFeedback, sendKakaoLogin, showDialog, changeWebEndpoint, openExternalBrowser
-            case requestPayment, registerDevice, requestCameraPermission
+            case requestPayment, registerDevice, requestCameraPermission, requestFcmToken
         }
 
         // 👇 변경 포인트
@@ -92,6 +92,7 @@ extension RawgraphyWebView {
             case .changeWebEndpoint: handleWebEndpoint(data)
             case .openExternalBrowser: handleOpenExternalBrowser(data)
             case .requestCameraPermission: handleRequestCameraPermission()
+            case .requestFcmToken:       handleFcmTokenRequest()
             }
         }
 
@@ -369,8 +370,8 @@ extension RawgraphyWebView {
                             print("결제 실패: \(error)")
                             let errorMessage: String
                             switch error {
-                            case .failed(_, _, _, let message, _, let pgMessage):
-                                errorMessage = message ?? pgMessage ?? "결제에 실패하였습니다."
+                            case .failed(_, _, _, _, _, let pgMessage):
+                                errorMessage = pgMessage ?? ""
                             case .invalidArgument(let message):
                                 errorMessage = message
                             case .unknown(let message):
@@ -402,6 +403,18 @@ extension RawgraphyWebView {
             } catch {
                 print("customData JSON parse error:", error)
                 return nil
+            }
+        }
+
+        private func handleFcmTokenRequest() {
+            Messaging.messaging().token { [weak self] token, error in
+                if let error = error {
+                    print("Error fetching FCM token: \(error)")
+                    return
+                }
+                let udid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+                self?.sendWebEvent(functionName: "onFcmTokenReceived",
+                                   data: ["fcmToken": token ?? "", "udid": udid])
             }
         }
 

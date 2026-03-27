@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseCrashlytics
 import UserNotifications
 import FirebaseMessaging
 import iamport_ios

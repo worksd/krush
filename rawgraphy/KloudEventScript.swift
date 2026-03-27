@@ -34,6 +34,7 @@ struct KloudEventScript {
             changeWebEndpoint: function(data) { sendMessage('changeWebEndpoint', data); },
             openExternalBrowser: function(data) { sendMessage('openExternalBrowser', data); },
             requestCameraPermission: function() { sendMessage('requestCameraPermission'); },
+            requestFcmToken: function() { sendMessage('requestFcmToken'); },
         };
 
         function sendMessage(type, data = null) {
