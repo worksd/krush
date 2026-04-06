@@ -346,6 +346,11 @@ extension RawgraphyWebView {
                         "easyPayProvider": "TOSSPAY",
                         "availablePayMethods": ["CARD"]
                     ] as [String: Any]
+                case "foreign_card":
+                    params["payMethod"] = "CARD"
+                    params["card"] = [
+                        "cardCompany": "VISA_MASTER"
+                    ]
                 default:
                     params["payMethod"] = "CARD"
                 }

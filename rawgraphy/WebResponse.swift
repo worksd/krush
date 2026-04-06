@@ -44,6 +44,7 @@ struct BottomMenuItem: Codable {
 struct Page: Codable {
     let route: String
     let initialColor: String
+    let ignoreSafeArea: Bool?
 }
 
 struct PaymentInfo: Codable {

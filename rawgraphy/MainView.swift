@@ -22,6 +22,15 @@ struct MainNavigationView: View {
         self.navigator = navigator
         self._selectedRoute = selectedRoute
         self.bootInfo = bootInfo
+
+        let appearance = UITabBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        appearance.shadowImage = UIImage()
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        UITabBar.appearance().backgroundColor = .clear
     }
 
     var body: some View {
@@ -31,6 +40,7 @@ struct MainNavigationView: View {
                     LazyTabContent(
                         navigator: navigator,
                         route: item.page.route,
+                        ignoreSafeArea: item.page.ignoreSafeArea ?? false,
                         isActive: selectedRoute == item.page.route
                     )
                     .tabItem {
@@ -91,15 +101,17 @@ struct MainNavigationView: View {
 private struct LazyTabContent: View {
     let navigator: LinkNavigatorType
     let route: String
+    let ignoreSafeArea: Bool
     let isActive: Bool
 
     var body: some View {
         Group {
             if isActive {
-                WebView(navigator: navigator, route: route)
+                let routeInfo = RouteInfo(route: route, ignoreSafeArea: ignoreSafeArea, title: nil, withClose: nil)
+                WebView(navigator: navigator, route: routeInfo.toJSONString() ?? route)
                     .id(route)
             } else {
-                Color.clear
+                ScrollView { Color.clear }
             }
         }
     }
