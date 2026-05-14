@@ -191,8 +191,10 @@ class ImageDialogViewController: UIViewController {
     
     @objc private func imageTapped() {
         print("Image Tapped!")
-        dismiss(animated: true)
-        onClick(id)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.onClick(self.id)
+        }
     }
     
     @objc private func onDismss() {
