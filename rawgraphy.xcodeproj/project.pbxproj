@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B5BCCEC2FC2BF21000A9EDC /* rawgraphyNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B5BCCE52FC2BF21000A9EDC /* rawgraphyNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3B1B576E2D300E9B007B1ECE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B1B576D2D300E9B007B1ECE /* GoogleService-Info.plist */; };
 		3B1B57712D300FAA007B1ECE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1B57702D300FA7007B1ECE /* AppDelegate.swift */; };
 		3B1B57732D300FD2007B1ECE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57722D300FD2007B1ECE /* FirebaseAnalytics */; };
@@ -27,6 +28,7 @@
 		3B1B57912D300FD2007B1ECE /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57902D300FD2007B1ECE /* FirebaseInAppMessaging-Beta */; };
 		3B1B57932D300FD2007B1ECE /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57922D300FD2007B1ECE /* FirebaseInstallations */; };
 		3B1B57952D300FD2007B1ECE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57942D300FD2007B1ECE /* FirebaseMessaging */; };
+		0BFCAE012FC2C00000000001 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0BFCAE022FC2C00000000002 /* FirebaseMessaging */; };
 		3B1B57972D300FD2007B1ECE /* FirebaseMLModelDownloader in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57962D300FD2007B1ECE /* FirebaseMLModelDownloader */; };
 		3B1B57992D300FD2007B1ECE /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B57982D300FD2007B1ECE /* FirebasePerformance */; };
 		3B1B579B2D300FD2007B1ECE /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1B579A2D300FD2007B1ECE /* FirebaseRemoteConfig */; };
@@ -72,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0B5BCCEA2FC2BF21000A9EDC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B9716932D1BABCF0024C34A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B5BCCE42FC2BF21000A9EDC;
+			remoteInfo = rawgraphyNotificationService;
+		};
 		3B9716AD2D1BABD10024C34A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B9716932D1BABCF0024C34A /* Project object */;
@@ -88,7 +97,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0B5BCCED2FC2BF21000A9EDC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0B5BCCEC2FC2BF21000A9EDC /* rawgraphyNotificationService.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0B5BCCE52FC2BF21000A9EDC /* rawgraphyNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = rawgraphyNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B1B576D2D300E9B007B1ECE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B1B57702D300FA7007B1ECE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B2B39302D40ABD0005FAFBE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,7 +145,29 @@
 		3BE0D11F2E584E5C0099FBFE /* PortOneLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortOneLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0B5BCCF02FC2BF21000A9EDC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0B5BCCE42FC2BF21000A9EDC /* rawgraphyNotificationService */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0B5BCCE62FC2BF21000A9EDC /* rawgraphyNotificationService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0B5BCCF02FC2BF21000A9EDC /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = rawgraphyNotificationService; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		0B5BCCE22FC2BF21000A9EDC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BFCAE012FC2C00000000001 /* FirebaseMessaging in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B9716982D1BABCF0024C34A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -189,6 +235,7 @@
 				3B97169D2D1BABCF0024C34A /* rawgraphy */,
 				3B9716AF2D1BABD10024C34A /* rawgraphyTests */,
 				3B9716B92D1BABD10024C34A /* rawgraphyUITests */,
+				0B5BCCE62FC2BF21000A9EDC /* rawgraphyNotificationService */,
 				3B97169C2D1BABCF0024C34A /* Products */,
 				3B9716D42D2523F60024C34A /* Frameworks */,
 			);
@@ -200,6 +247,7 @@
 				3B97169B2D1BABCF0024C34A /* rawgraphy.app */,
 				3B9716AC2D1BABD10024C34A /* rawgraphyTests.xctest */,
 				3B9716B62D1BABD10024C34A /* rawgraphyUITests.xctest */,
+				0B5BCCE52FC2BF21000A9EDC /* rawgraphyNotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -270,6 +318,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0B5BCCE42FC2BF21000A9EDC /* rawgraphyNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B5BCCF12FC2BF21000A9EDC /* Build configuration list for PBXNativeTarget "rawgraphyNotificationService" */;
+			buildPhases = (
+				0B5BCCE12FC2BF21000A9EDC /* Sources */,
+				0B5BCCE22FC2BF21000A9EDC /* Frameworks */,
+				0B5BCCE32FC2BF21000A9EDC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0B5BCCE62FC2BF21000A9EDC /* rawgraphyNotificationService */,
+			);
+			name = rawgraphyNotificationService;
+			packageProductDependencies = (
+				0BFCAE022FC2C00000000002 /* FirebaseMessaging */,
+			);
+			productName = rawgraphyNotificationService;
+			productReference = 0B5BCCE52FC2BF21000A9EDC /* rawgraphyNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3B97169A2D1BABCF0024C34A /* rawgraphy */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B9716C02D1BABD10024C34A /* Build configuration list for PBXNativeTarget "rawgraphy" */;
@@ -277,11 +348,13 @@
 				3B9716972D1BABCF0024C34A /* Sources */,
 				3B9716982D1BABCF0024C34A /* Frameworks */,
 				3B9716992D1BABCF0024C34A /* Resources */,
+				0B5BCCED2FC2BF21000A9EDC /* Embed Foundation Extensions */,
 				3BCR45H10000000000000001 /* Upload Crashlytics dSYMs */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0B5BCCEB2FC2BF21000A9EDC /* PBXTargetDependency */,
 			);
 			name = rawgraphy;
 			packageProductDependencies = (
@@ -365,39 +438,17 @@
 		};
 /* End PBXNativeTarget section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		3BCR45H10000000000000001 /* Upload Crashlytics dSYMs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
-				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "Upload Crashlytics dSYMs";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXProject section */
 		3B9716932D1BABCF0024C34A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					0B5BCCE42FC2BF21000A9EDC = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
 					3B97169A2D1BABCF0024C34A = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -441,11 +492,19 @@
 				3B97169A2D1BABCF0024C34A /* rawgraphy */,
 				3B9716AB2D1BABD10024C34A /* rawgraphyTests */,
 				3B9716B52D1BABD10024C34A /* rawgraphyUITests */,
+				0B5BCCE42FC2BF21000A9EDC /* rawgraphyNotificationService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B5BCCE32FC2BF21000A9EDC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B9716992D1BABCF0024C34A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -472,7 +531,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3BCR45H10000000000000001 /* Upload Crashlytics dSYMs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Upload Crashlytics dSYMs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		0B5BCCE12FC2BF21000A9EDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3B9716972D1BABCF0024C34A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -519,6 +610,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0B5BCCEB2FC2BF21000A9EDC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B5BCCE42FC2BF21000A9EDC /* rawgraphyNotificationService */;
+			targetProxy = 0B5BCCEA2FC2BF21000A9EDC /* PBXContainerItemProxy */;
+		};
 		3B9716AE2D1BABD10024C34A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3B97169A2D1BABCF0024C34A /* rawgraphy */;
@@ -532,6 +628,76 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0B5BCCEE2FC2BF21000A9EDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AWMR6W6KV4;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = rawgraphyNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = rawgraphyNotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush.rawgraphyNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0B5BCCEF2FC2BF21000A9EDC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AWMR6W6KV4;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = rawgraphyNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = rawgraphyNotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush.rawgraphyNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		3B9716BE2D1BABD10024C34A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -673,7 +839,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0.26;
+				MARKETING_VERSION = 1.0.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -716,7 +882,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0.26;
+				MARKETING_VERSION = 1.0.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.worksd.krush;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -820,6 +986,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B5BCCF12FC2BF21000A9EDC /* Build configuration list for PBXNativeTarget "rawgraphyNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B5BCCEE2FC2BF21000A9EDC /* Debug */,
+				0B5BCCEF2FC2BF21000A9EDC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3B9716962D1BABCF0024C34A /* Build configuration list for PBXProject "rawgraphy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1044,6 +1219,11 @@
 			productName = FirebaseInstallations;
 		};
 		3B1B57942D300FD2007B1ECE /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B1B576F2D300F07007B1ECE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		0BFCAE022FC2C00000000002 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B1B576F2D300F07007B1ECE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
