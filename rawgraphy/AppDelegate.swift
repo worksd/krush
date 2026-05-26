@@ -81,12 +81,78 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             )
         }
         if hideNotification == "true" {
-            // 알림 표시하지 않음
             completionHandler([])
-        } else {
-            // 알림 표시
-            completionHandler([.list, .banner, .sound])
+            return
         }
+
+        // 이미 이미지 첨부 처리된 재발행 알림이면 그대로 표시 (무한 재발행 방지)
+        if userInfo["_imageAttached"] as? Bool == true {
+            completionHandler([.list, .banner, .sound])
+            return
+        }
+
+        // 포그라운드에서 fcm_options.image 가 있으면 직접 다운로드 후 첨부해서 재발행
+        // (NSE는 백그라운드/종료 상태에서만 호출되므로 포그라운드에선 메인 앱이 처리)
+        if let fcmOptions = userInfo["fcm_options"] as? [String: Any],
+           let imageURLString = fcmOptions["image"] as? String,
+           let imageURL = URL(string: imageURLString) {
+            presentWithImageAttachment(imageURL: imageURL, original: notification, completionHandler: completionHandler)
+            return
+        }
+
+        completionHandler([.list, .banner, .sound])
+    }
+
+    private func presentWithImageAttachment(imageURL: URL,
+                                            original: UNNotification,
+                                            completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        URLSession.shared.downloadTask(with: imageURL) { tempURL, _, error in
+            guard let tempURL else {
+                print("foreground image download failed: \(String(describing: error))")
+                DispatchQueue.main.async { completionHandler([.list, .banner, .sound]) }
+                return
+            }
+
+            let ext = imageURL.pathExtension.isEmpty ? "jpg" : imageURL.pathExtension
+            let renamedURL = tempURL.deletingPathExtension().appendingPathExtension(ext)
+            try? FileManager.default.moveItem(at: tempURL, to: renamedURL)
+
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "fcm-image", url: renamedURL, options: nil)
+
+                let originalContent = original.request.content
+                let content = UNMutableNotificationContent()
+                content.title = originalContent.title
+                content.subtitle = originalContent.subtitle
+                content.body = originalContent.body
+                content.sound = originalContent.sound
+                content.badge = originalContent.badge
+                content.categoryIdentifier = originalContent.categoryIdentifier
+                content.threadIdentifier = originalContent.threadIdentifier
+                content.attachments = [attachment]
+
+                // 재발행 시 무한 루프 방지 마커 추가 + fcm_options 제거
+                var newUserInfo = originalContent.userInfo
+                newUserInfo["_imageAttached"] = true
+                newUserInfo.removeValue(forKey: "fcm_options")
+                content.userInfo = newUserInfo
+
+                let request = UNNotificationRequest(
+                    identifier: original.request.identifier + ".fg",
+                    content: content,
+                    trigger: nil
+                )
+                UNUserNotificationCenter.current().add(request) { addError in
+                    if let addError {
+                        print("foreground re-issue failed: \(addError)")
+                    }
+                }
+                DispatchQueue.main.async { completionHandler([]) }
+            } catch {
+                print("foreground attachment creation failed: \(error)")
+                DispatchQueue.main.async { completionHandler([.list, .banner, .sound]) }
+            }
+        }.resume()
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
