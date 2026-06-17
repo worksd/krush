@@ -37,6 +37,7 @@ struct BottomMenuItem: Codable {
     let label: String
     let labelSize: Int
     let iconUrl: String
+    let selectedIconUrl: String?
     let iconSize: Int
     let page: Page
 }

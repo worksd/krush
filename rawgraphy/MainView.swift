@@ -49,7 +49,9 @@ struct MainNavigationView: View {
                                 .font(.system(size: CGFloat(item.labelSize)))
                         } icon: {
                             WebImage(
-                                url: URL(string: item.iconUrl),
+                                url: URL(string: selectedRoute == item.page.route
+                                    ? (item.selectedIconUrl ?? item.iconUrl)
+                                    : item.iconUrl),
                                 context: [.imageThumbnailPixelSize: CGSize(width: 24, height: 24)]
                             )
                             .resizable()
