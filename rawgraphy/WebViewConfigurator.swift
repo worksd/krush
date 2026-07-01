@@ -25,7 +25,11 @@ struct WebViewConfigurator {
     }
     
     static func loadURL(_ urlString: String, in webView: WKWebView) {
-            guard let url = URL(string: urlString) else { return }
+            print("loadURL \(urlString)")
+            guard let url = URL(string: urlString) else {
+                print("loadURL FAILED to parse: \(urlString)")
+                return
+            }
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "No Version"
             
             // 현재 UserAgent 가져오기

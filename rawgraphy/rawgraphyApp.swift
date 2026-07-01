@@ -33,19 +33,19 @@ struct AppMain: App {
         ZStack {
             navigator.launch(paths: ["web"], items: ["route": "/splash"]).edgesIgnoringSafeArea(.all).background(.white)
         }.onOpenURL { url in
+            print("onOpenURL url=\(url.absoluteString)")
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.handleOpenUrl(url: url)
                 return
             }
-
-            // 딥링크 처리: rawgraphy://lessons/1638 → /splash?link=/lessons/1638
-            let path = "/" + (url.host ?? "") + url.path
-            if path.count > 1 {
-                navigator.replace(
-                    paths: ["web"],
-                    items: ["route": "/splash?link=\(path)"],
-                    isAnimated: false
-                )
+            // 커스텀 스킴 딥링크 (rawgraphy://...) — 공용 핸들러로 처리
+            delegate.handleDeepLink(url)
+        }
+        // 유니버설 링크 (https://...)는 onOpenURL이 아니라 이쪽으로 들어옴 (NSUserActivity)
+        .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+            print("onContinueUserActivity url=\(String(describing: activity.webpageURL?.absoluteString))")
+            if let url = activity.webpageURL {
+                delegate.handleDeepLink(url)
             }
         }
     }

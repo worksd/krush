@@ -12,9 +12,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:www.rawgraphy.com</string>
-		<string>applinks:rawgraphy.com</string>
-		<string>applinks:staging.rawgraphy.com</string>
+		<string>applinks:staging.rawgraphy.com?mode=developer</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>

@@ -46,12 +46,50 @@ extension AppDelegate: UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("AppDelegate open url=\(url.absoluteString)")
         if (AuthApi.isKakaoTalkLoginUrl(url)) {
             return AuthController.handleOpenUrl(url: url)
         }
         Iamport.shared.receivedURL(url)
         return false
       }
+
+    // 유니버설 링크(https://...) 진입점. 웜/콜드 어느 쪽으로 들어오는지 확인용 + 실제 처리.
+    func application(_ application: UIApplication,
+                     continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        print("AppDelegate continue type=\(userActivity.activityType) url=\(String(describing: userActivity.webpageURL?.absoluteString))")
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb, let url = userActivity.webpageURL {
+            handleDeepLink(url)
+            return true
+        }
+        return false
+    }
+
+    // 딥링크 공용 처리 (onOpenURL과 동일 로직) — navigator가 여기 있으므로 여기서 처리
+    func handleDeepLink(_ url: URL) {
+        print("handleDeepLink url=\(url.absoluteString)")
+        var path: String
+        if url.scheme == "https" || url.scheme == "http" {
+            path = url.path
+        } else {
+            path = "/" + (url.host ?? "") + url.path
+        }
+        if let query = url.query, !query.isEmpty {
+            path += "?\(query)"
+        }
+        guard path.count > 1 else {
+            print("handleDeepLink skipped (empty path) url=\(url.absoluteString)")
+            return
+        }
+        let encodedLink = path.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? path
+        print("handleDeepLink route=/splash?link=\(encodedLink)")
+        navigator.replace(
+            paths: ["web"],
+            items: ["route": "/splash?link=\(encodedLink)"],
+            isAnimated: false
+        )
+    }
     
     
 }
